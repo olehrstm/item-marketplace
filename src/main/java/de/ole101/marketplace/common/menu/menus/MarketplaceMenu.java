@@ -26,16 +26,16 @@ public class MarketplaceMenu extends PaginatedMenu<Offer> {
     public PaginatedMenuContext<Offer> getMenu(Player player) {
         return PaginatedMenuContext.<Offer>paginated()
                 .rows(6)
-                .title(text("Hello " + this.page))
+                .translated("menu.marketplace.title")
                 .iterable(this.marketplaceService.getOffers().stream().sorted(Comparator.comparing(Offer::getCreatedAt).reversed()).toList())
                 .itemProvider(offer -> MenuItem.builder()
                         .itemStack(ItemBuilder.of(offer.getItemStack())
                                 .appendLore(empty(), text("--------------------"), text("Price: " + offer.getPrice()), text("Seller: " + this.marketplaceService.getUserByOffer(offer).getOfflinePlayer().getName()))
                                 .build())
                         .build())
-                .item(6, 4, ItemBuilder.of(Material.CLOCK).displayName(text("Previous page")).build(), click -> previousPage())
-                .item(6, 5, ItemBuilder.of(Material.PAPER).displayName(text(this.page)).build())
-                .item(6, 6, ItemBuilder.of(Material.CLOCK).displayName(text("Next page")).build(), click -> nextPage())
+                .item(6, 3, ItemBuilder.of(Material.CLOCK).translatedDisplayName("menu.page.previous").build(), click -> previousPage())
+                .item(6, 5, ItemBuilder.of(Material.PAPER).displayName(text(this.page + 1)).build())
+                .item(6, 7, ItemBuilder.of(Material.CLOCK).translatedDisplayName("menu.page.next").build(), click -> nextPage())
                 .fillItem(ItemBuilder.FILL_MENU_ITEM)
                 .build();
     }
