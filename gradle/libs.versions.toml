@@ -1,0 +1,22 @@
+[versions]
+lombok = "1.18.36"
+gson = "2.12.1"
+annotations = "26.0.2"
+guice = "7.0.0"
+mongodb = "5.3.0"
+
+shadow = "8.1.1"
+paperweight-userdev = "2.0.0-beta.16"
+run-paper = "2.3.1"
+
+[libraries]
+lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+annotations = { group = "org.jetbrains", name = "annotations", version.ref = "annotations" }
+guice = { group = "com.google.inject", name = "guice", version.ref = "guice" }
+mongodb = { group = "org.mongodb", name = "mongodb-driver-sync", version.ref = "mongodb" }
+
+[plugins]
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
+paperweight-userdev = { id = "io.papermc.paperweight.userdev", version.ref = "paperweight-userdev" }
+run-paper = { id = "xyz.jpenilla.run-paper", version.ref = "run-paper" }
