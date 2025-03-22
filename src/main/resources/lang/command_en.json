@@ -1,0 +1,4 @@
+{
+    "command.sell.noItem": "<red>There is no item in your hand to sell.",
+    "command.sell.success": "<green>You have created an offer for <yellow>{{price}}$<green>."
+}

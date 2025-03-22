@@ -1,5 +1,8 @@
 package de.ole101.marketplace.common.menu;
 
+import de.ole101.marketplace.MarketplacePlugin;
+import de.ole101.marketplace.common.i18n.TranslationContext;
+import de.ole101.marketplace.common.i18n.TranslationService;
 import de.ole101.marketplace.common.menu.item.Click;
 import de.ole101.marketplace.common.menu.item.MenuItem;
 import lombok.AllArgsConstructor;
@@ -34,11 +37,20 @@ public class MenuContext {
     @Accessors(fluent = true)
     public static class Builder {
 
+        private static TranslationService translationService;
         private final Set<MenuItem> menuItems = new HashSet<>();
         private Component title = text("Menu");
         private int rows = 3;
         private MenuItem fillItem;
         private Consumer<Player> closeConsumer;
+
+        public Builder translated(String key) {
+            return translated(key, context -> {});
+        }
+
+        public Builder translated(String key, Consumer<TranslationContext> consumer) {
+            return title(getTranslationService().translate(key, consumer));
+        }
 
         public Builder item(MenuItem menuItem) {
             this.menuItems.add(menuItem);
@@ -67,6 +79,13 @@ public class MenuContext {
 
         public MenuContext build() {
             return new MenuContext(this.title, this.rows, this.menuItems, this.fillItem, this.closeConsumer);
+        }
+
+        private TranslationService getTranslationService() {
+            if (translationService == null) {
+                translationService = MarketplacePlugin.getPlugin().getInjector().getInstance(TranslationService.class);
+            }
+            return translationService;
         }
     }
 }

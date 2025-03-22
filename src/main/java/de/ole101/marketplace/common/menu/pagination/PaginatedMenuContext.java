@@ -1,5 +1,8 @@
 package de.ole101.marketplace.common.menu.pagination;
 
+import de.ole101.marketplace.MarketplacePlugin;
+import de.ole101.marketplace.common.i18n.TranslationContext;
+import de.ole101.marketplace.common.i18n.TranslationService;
 import de.ole101.marketplace.common.menu.MenuContext;
 import de.ole101.marketplace.common.menu.item.Click;
 import de.ole101.marketplace.common.menu.item.MenuItem;
@@ -40,6 +43,7 @@ public class PaginatedMenuContext<E> extends MenuContext {
     @Accessors(fluent = true)
     public static class Builder<E> {
 
+        private static TranslationService translationService;
         private final Set<MenuItem> menuItems = new HashSet<>();
         private Component title = text("Menu");
         private int rows = 3;
@@ -47,6 +51,14 @@ public class PaginatedMenuContext<E> extends MenuContext {
         private Iterable<E> iterable;
         private Function<E, MenuItem> itemProvider;
         private Consumer<Player> closeConsumer;
+
+        public Builder<E> translated(String key) {
+            return translated(key, context -> {});
+        }
+
+        public Builder<E> translated(String key, Consumer<TranslationContext> consumer) {
+            return title(getTranslationService().translate(key, consumer));
+        }
 
         public Builder<E> item(MenuItem menuItem) {
             return item(menuItem.getSlot(), menuItem.getItemStack(), menuItem.getFunction());
@@ -75,6 +87,13 @@ public class PaginatedMenuContext<E> extends MenuContext {
 
         public PaginatedMenuContext<E> build() {
             return new PaginatedMenuContext<>(this.title, this.rows, this.menuItems, this.fillItem, this.iterable, this.itemProvider, this.closeConsumer);
+        }
+
+        private static TranslationService getTranslationService() {
+            if (translationService == null) {
+                translationService = MarketplacePlugin.getPlugin().getInjector().getInstance(TranslationService.class);
+            }
+            return translationService;
         }
     }
 }

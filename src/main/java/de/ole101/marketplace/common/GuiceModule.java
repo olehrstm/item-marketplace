@@ -5,6 +5,9 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import de.ole101.marketplace.MarketplacePlugin;
 import de.ole101.marketplace.common.configurations.Configuration;
+import de.ole101.marketplace.common.i18n.JsonTranslationProvider;
+import de.ole101.marketplace.common.i18n.TranslationService;
+import de.ole101.marketplace.common.i18n.TranslationServiceImpl;
 import de.ole101.marketplace.common.wrapper.MongoWrapper;
 import de.ole101.marketplace.repositories.UserRepository;
 import de.ole101.marketplace.repositories.impl.UserRepositoryImpl;
@@ -13,6 +16,8 @@ import de.ole101.marketplace.services.MarketplaceService;
 import de.ole101.marketplace.services.PlayerService;
 import de.ole101.marketplace.services.UserService;
 import de.ole101.marketplace.services.impl.UserServiceImpl;
+
+import static de.ole101.marketplace.MarketplacePlugin.MM;
 
 public class GuiceModule extends AbstractModule {
 
@@ -42,5 +47,12 @@ public class GuiceModule extends AbstractModule {
         bind(Registry.class).asEagerSingleton();
         bind(PlayerService.class).asEagerSingleton();
         bind(MarketplaceService.class).asEagerSingleton();
+
+        bind(TranslationService.class).toInstance(TranslationServiceImpl.builder()
+                .provider(new JsonTranslationProvider(config.getFallbackLocale(), "common", "command", "menu"))
+                .fallbackLocale(config.getFallbackLocale())
+                .localeSupplier(config::getLocale)
+                .miniMessage(MM)
+                .build());
     }
 }

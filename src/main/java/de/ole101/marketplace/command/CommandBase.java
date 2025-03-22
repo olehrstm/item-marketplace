@@ -5,6 +5,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
+import de.ole101.marketplace.common.i18n.TranslationService;
 import de.ole101.marketplace.common.models.User;
 import de.ole101.marketplace.services.PlayerService;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -12,12 +13,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import static io.papermc.paper.adventure.PaperAdventure.asVanilla;
-import static net.kyori.adventure.text.Component.text;
 
 @Slf4j
 @Getter
@@ -31,6 +30,8 @@ public abstract class CommandBase {
 
     @Inject
     private PlayerService playerService; // TODO: inject this properly
+    @Inject
+    private TranslationService translationService; // TODO: inject this properly
 
     protected CommandBase(String label, String... aliases) {
         this.label = label;
@@ -47,7 +48,7 @@ public abstract class CommandBase {
         if (context.getSource().getSender() instanceof Player player) {
             return player;
         } else {
-            throw error(text("not player", NamedTextColor.RED)).create(); // TODO: use translation
+            throw error(this.translationService.translate("error.command.not.player")).create();
         }
     }
 
@@ -55,7 +56,7 @@ public abstract class CommandBase {
         Player player = player(context);
         User user = this.playerService.getUser(player);
         if (user == null) {
-            throw error(text("not player", NamedTextColor.RED)).create(); // TODO: use translation
+            throw error(this.translationService.translate("error.command.not.player")).create();
         }
         return user;
     }
