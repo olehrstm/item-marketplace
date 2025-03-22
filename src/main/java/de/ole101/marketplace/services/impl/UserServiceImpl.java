@@ -9,6 +9,7 @@ import org.bson.types.ObjectId;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class UserServiceImpl implements UserService {
 
@@ -42,11 +43,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(User user) {
-        this.userRepository.update(user);
+        CompletableFuture.runAsync(() -> this.userRepository.update(user));
     }
 
     @Override
     public void delete(User user) {
-        this.userRepository.delete(user);
+        CompletableFuture.runAsync(() -> this.userRepository.delete(user));
     }
 }
