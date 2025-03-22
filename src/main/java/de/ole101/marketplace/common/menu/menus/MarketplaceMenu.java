@@ -15,6 +15,8 @@ import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.List;
 
+import static de.ole101.marketplace.common.models.Offer.Type.MARKETPLACE;
+
 public class MarketplaceMenu extends PaginatedMenu<Offer> {
 
     private final MarketplaceService marketplaceService;
@@ -36,7 +38,7 @@ public class MarketplaceMenu extends PaginatedMenu<Offer> {
                         ##a#b#c##
                         """)
                 .itemId("1")
-                .iterable(this.marketplaceService.getOffers().stream().sorted(Comparator.comparing(Offer::getCreatedAt).reversed()).toList())
+                .iterable(this.marketplaceService.getOffers().stream().filter(offer -> offer.getType() == MARKETPLACE).filter(offer -> !offer.isBought()).sorted(Comparator.comparing(Offer::getCreatedAt).reversed()).toList())
                 .itemProvider(offer -> {
                     ItemBuilder.Builder builder = ItemBuilder.of(offer.getItemStack());
 

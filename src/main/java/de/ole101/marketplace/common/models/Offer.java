@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.bson.types.ObjectId;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -27,11 +28,11 @@ public class Offer {
 
     private long price;
 
-    @Nullable
-    private UUID buyer;
-
     @NotNull
     private Type type;
+
+    @Nullable
+    private UUID buyer;
 
     @NotNull
     @Builder.Default
@@ -39,6 +40,11 @@ public class Offer {
 
     @Nullable
     private Instant boughtAt;
+
+    @BsonIgnore
+    public boolean isBought() {
+        return this.buyer != null;
+    }
 
     public enum Type {
         MARKETPLACE, BLACK_MARKET
