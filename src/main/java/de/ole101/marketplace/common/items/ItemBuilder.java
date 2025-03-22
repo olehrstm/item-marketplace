@@ -42,6 +42,7 @@ public interface ItemBuilder {
 
     MenuItem FILL_MENU_ITEM = MenuItem.builder()
             .itemStack(FILL_ITEM)
+            .layoutId("#")
             .build();
 
     static Builder of(Material material) {

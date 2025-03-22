@@ -6,6 +6,9 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
@@ -37,19 +40,39 @@ public abstract class PaginatedMenu<E> extends Menu {
         this.context = getMenu(player);
         this.page = page;
 
-        this.context.getMenuItems().removeIf(menuItem -> menuItem.getSlot() == -1); // remove pagination items
         updateMenuContext(this.context);
         super.build(player, update);
 
         int entriesPerPage = getEntriesPerPage();
         int start = this.page * entriesPerPage;
+        String[] layout = this.context.getLayout().split("\\n");
+
+        List<Integer> paginationSlots = new ArrayList<>();
+        for (int row = 0; row < layout.length; row++) {
+            for (int col = 0; col < layout[row].length(); col++) {
+                if (String.valueOf(layout[row].charAt(col)).equals(this.context.getItemId())) {
+                    int slot = row * layout[row].length() + col;
+                    paginationSlots.add(slot);
+                }
+            }
+        }
+
+        Iterator<Integer> slotIterator = paginationSlots.iterator();
         StreamSupport.stream(this.context.getIterable().spliterator(), false)
                 .skip(start)
                 .limit(entriesPerPage)
                 .forEach(element -> {
                     MenuItem menuItem = this.context.getItemProvider().apply(element);
+                    int slot = slotIterator.next();
 
-                    updateItem(menuItem);
+                    MenuItem copy = MenuItem.builder()
+                            .slot(slot)
+                            .itemStack(menuItem.getItemStack())
+                            .function(menuItem.getFunction())
+                            .layoutId(this.context.getItemId())
+                            .build();
+                    this.context.getMenuItems().add(copy);
+                    updateItem(copy);
                 });
 
         return this.inventory;
@@ -72,7 +95,12 @@ public abstract class PaginatedMenu<E> extends Menu {
     }
 
     public int getEntriesPerPage() {
-        return this.context.getRows() * 9 - (int) this.context.getMenuItems().stream().map(MenuItem::getSlot).distinct().count();
+        String[] layout = this.context.getLayout().split("\\n");
+        return (int) Arrays.stream(layout)
+                .flatMapToInt(String::chars)
+                .mapToObj(c -> String.valueOf((char) c))
+                .filter(c -> c.equals(this.context.getItemId()))
+                .count();
     }
 
     public boolean hasPreviousPage() {

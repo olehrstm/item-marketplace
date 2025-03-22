@@ -13,8 +13,8 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -26,13 +26,13 @@ public class PaginatedMenuContext<E> extends MenuContext {
 
     private Iterable<E> iterable;
     private Function<E, MenuItem> itemProvider;
-    private Consumer<Player> closeConsumer;
+    private String itemId;
 
-    public PaginatedMenuContext(Component title, int rows, Set<MenuItem> menuItems, MenuItem fillItem, Iterable<E> iterable, Function<E, MenuItem> itemProvider, Consumer<Player> closeConsumer) {
-        super(title, rows, menuItems, fillItem, closeConsumer);
+    public PaginatedMenuContext(Component title, Set<MenuItem> menuItems, Consumer<Player> closeConsumer, String layout, Iterable<E> iterable, Function<E, MenuItem> itemProvider, String itemId) {
+        super(title, menuItems, closeConsumer, layout);
         this.iterable = iterable;
         this.itemProvider = itemProvider;
-        this.closeConsumer = closeConsumer;
+        this.itemId = itemId;
     }
 
     public static <T> Builder<T> paginated() {
@@ -44,13 +44,17 @@ public class PaginatedMenuContext<E> extends MenuContext {
     public static class Builder<E> {
 
         private static TranslationService translationService;
-        private final Set<MenuItem> menuItems = new HashSet<>();
+        private final Set<MenuItem> menuItems = ConcurrentHashMap.newKeySet();
         private Component title = text("Menu");
-        private int rows = 3;
-        private MenuItem fillItem;
         private Iterable<E> iterable;
         private Function<E, MenuItem> itemProvider;
         private Consumer<Player> closeConsumer;
+        private String layout = """
+                                #########
+                                #########
+                                #########
+                                """;
+        private String itemId;
 
         public Builder<E> translated(String key) {
             return translated(key, context -> {});
@@ -61,32 +65,24 @@ public class PaginatedMenuContext<E> extends MenuContext {
         }
 
         public Builder<E> item(MenuItem menuItem) {
-            return item(menuItem.getSlot(), menuItem.getItemStack(), menuItem.getFunction());
-        }
-
-        public Builder<E> item(int slot, ItemStack itemStack) {
-            return item(slot, itemStack, null);
-        }
-
-        public Builder<E> item(int row, int column, ItemStack itemStack) {
-            return item(row, column, itemStack, null);
-        }
-
-        public Builder<E> item(int row, int column, ItemStack itemStack, Consumer<Click> function) {
-            return item(row * 9 - 9 + (column - 1), itemStack, function);
-        }
-
-        public Builder<E> item(int slot, ItemStack itemStack, Consumer<Click> function) {
-            this.menuItems.add(MenuItem.builder()
-                    .slot(slot)
-                    .itemStack(itemStack)
-                    .function(function)
-                    .build());
+            this.menuItems.add(menuItem);
             return this;
         }
 
+        public Builder<E> item(ItemStack itemStack, String layoutId) {
+            return item(itemStack, layoutId, null);
+        }
+
+        public Builder<E> item(ItemStack itemStack, String layoutId, Consumer<Click> function) {
+            return item(MenuItem.builder()
+                    .itemStack(itemStack)
+                    .function(function)
+                    .layoutId(layoutId)
+                    .build());
+        }
+
         public PaginatedMenuContext<E> build() {
-            return new PaginatedMenuContext<>(this.title, this.rows, this.menuItems, this.fillItem, this.iterable, this.itemProvider, this.closeConsumer);
+            return new PaginatedMenuContext<>(this.title, this.menuItems, this.closeConsumer, this.layout, this.iterable, this.itemProvider, this.itemId);
         }
 
         private static TranslationService getTranslationService() {

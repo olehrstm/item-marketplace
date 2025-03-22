@@ -1,5 +1,6 @@
 package de.ole101.marketplace.common.menu;
 
+import de.ole101.marketplace.common.items.ItemBuilder;
 import de.ole101.marketplace.common.menu.item.Click;
 import de.ole101.marketplace.common.menu.item.MenuItem;
 import de.ole101.marketplace.common.menu.pagination.PaginatedMenuContext;
@@ -16,9 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -27,7 +26,7 @@ public abstract class Menu implements IMenu {
 
     protected Inventory inventory;
     protected MenuContext context;
-    private static final NamespacedKey UUID_KEY = new NamespacedKey("novacity", "uuid");
+    private static final NamespacedKey UUID_KEY = new NamespacedKey("marketplace", "uuid");
 
     public abstract MenuContext getMenu(Player player);
 
@@ -41,16 +40,26 @@ public abstract class Menu implements IMenu {
             this.inventory = Bukkit.createInventory(this, this.context.getRows() * 9, this.context.getTitle());
         }
 
-        Set<MenuItem> menuItems = new HashSet<>(this.context.getMenuItems());
-        MenuItem fillItem = this.context.getFillItem();
-        if (fillItem != null) {
-            fillBorder(fillItem);
-        }
+        this.context.getMenuItems().add(ItemBuilder.FILL_MENU_ITEM);
 
-        menuItems.forEach(menuItem -> {
-            ItemStack itemStack = menuItem.getItemStack();
-            itemStack.editMeta(meta -> meta.getPersistentDataContainer().set(UUID_KEY, PersistentDataType.STRING, menuItem.getUniqueId().toString()));
-            updateItem(menuItem);
+        String[] layout = this.context.getLayout().split("\\n");
+        this.context.getMenuItems().forEach(menuItem -> {
+            for (int row = 0; row < layout.length; row++) {
+                for (int col = 0; col < layout[row].length(); col++) {
+                    // Check if the character at this position matches the ingredient key
+                    if (String.valueOf(layout[row].charAt(col)).equals(menuItem.getLayoutId())) {
+                        // Calculate the slot number in a row-major order
+                        int slot = row * layout[row].length() + col;
+                        MenuItem copy = MenuItem.builder()
+                                .slot(slot)
+                                .itemStack(menuItem.getItemStack())
+                                .function(menuItem.getFunction())
+                                .build();
+                        this.context.getMenuItems().add(copy);
+                        updateItem(copy);
+                    }
+                }
+            }
         });
 
         return this.inventory;
@@ -84,16 +93,7 @@ public abstract class Menu implements IMenu {
 
         ItemStack itemStack = menuItem.getItemStack();
         itemStack.editMeta(meta -> meta.getPersistentDataContainer().set(UUID_KEY, PersistentDataType.STRING, menuItem.getUniqueId().toString()));
-        int slot = menuItem.getSlot();
-        if (menuItem.getSlot() == -1) {
-            int firstEmpty = this.inventory.firstEmpty();
-
-            if (firstEmpty == -1) {
-                return;
-            }
-            slot = firstEmpty;
-        }
-        this.inventory.setItem(slot, itemStack);
+        this.inventory.setItem(menuItem.getSlot(), itemStack);
 
         this.context.getMenuItems().add(menuItem);
     }
@@ -106,28 +106,5 @@ public abstract class Menu implements IMenu {
     @Override
     public @NotNull Inventory getInventory() {
         return this.inventory;
-    }
-
-    private void fillBorder(MenuItem fillItem) {
-        for (int i = 0; i < this.inventory.getSize(); i++) {
-            int numCols = 9;
-            if (this.inventory.getSize() <= 9) {
-                numCols = (int) Math.sqrt(this.inventory.getSize());
-            }
-
-            boolean isFirstRow = i < numCols;
-            boolean isLastRow = i >= this.inventory.getSize() - numCols;
-            boolean isFirstColumn = i % numCols == 0;
-            boolean isLastColumn = i % numCols == (numCols - 1);
-            if (isFirstRow || isLastRow || isFirstColumn || isLastColumn) {
-                MenuItem menuItem = MenuItem.builder()
-                        .itemStack(fillItem.getItemStack())
-                        .slot(i)
-                        .uniqueId(fillItem.getUniqueId())
-                        .function(fillItem.getFunction())
-                        .build();
-                updateItem(menuItem);
-            }
-        }
     }
 }

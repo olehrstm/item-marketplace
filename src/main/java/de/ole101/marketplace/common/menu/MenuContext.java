@@ -13,8 +13,8 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 import static net.kyori.adventure.text.Component.text;
@@ -24,10 +24,13 @@ import static net.kyori.adventure.text.Component.text;
 public class MenuContext {
 
     private Component title;
-    private int rows;
     private Set<MenuItem> menuItems;
-    private MenuItem fillItem;
     private Consumer<Player> closeConsumer;
+    private String layout;
+
+    public int getRows() {
+        return this.layout.split("\n").length;
+    }
 
     public static Builder builder() {
         return new Builder();
@@ -38,11 +41,14 @@ public class MenuContext {
     public static class Builder {
 
         private static TranslationService translationService;
-        private final Set<MenuItem> menuItems = new HashSet<>();
+        private final Set<MenuItem> menuItems = ConcurrentHashMap.newKeySet();
         private Component title = text("Menu");
-        private int rows = 3;
-        private MenuItem fillItem;
         private Consumer<Player> closeConsumer;
+        private String layout = """
+                                #########
+                                #########
+                                #########
+                                """;
 
         public Builder translated(String key) {
             return translated(key, context -> {});
@@ -57,28 +63,20 @@ public class MenuContext {
             return this;
         }
 
-        public Builder item(int slot, ItemStack itemStack) {
-            return item(slot, itemStack, null);
+        public Builder item(ItemStack itemStack, String layoutId) {
+            return item(itemStack, layoutId, null);
         }
 
-        public Builder item(int row, int column, ItemStack itemStack) {
-            return item(row, column, itemStack, null);
-        }
-
-        public Builder item(int row, int column, ItemStack itemStack, Consumer<Click> function) {
-            return item(row * 9 - 9 + (column - 1), itemStack, function);
-        }
-
-        public Builder item(int slot, ItemStack itemStack, Consumer<Click> function) {
+        public Builder item(ItemStack itemStack, String layoutId, Consumer<Click> function) {
             return item(MenuItem.builder()
-                    .slot(slot)
                     .itemStack(itemStack)
                     .function(function)
+                    .layoutId(layoutId)
                     .build());
         }
 
         public MenuContext build() {
-            return new MenuContext(this.title, this.rows, this.menuItems, this.fillItem, this.closeConsumer);
+            return new MenuContext(this.title, this.menuItems, this.closeConsumer, this.layout);
         }
 
         private TranslationService getTranslationService() {

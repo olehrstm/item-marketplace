@@ -26,8 +26,16 @@ public class MarketplaceMenu extends PaginatedMenu<Offer> {
     @Override
     public PaginatedMenuContext<Offer> getMenu(Player player) {
         return PaginatedMenuContext.<Offer>paginated()
-                .rows(6)
                 .translated("menu.marketplace.title")
+                .layout("""
+                        #########
+                        #1111111#
+                        #1111111#
+                        #1111111#
+                        #1111111#
+                        ##a#b#c##
+                        """)
+                .itemId("1")
                 .iterable(this.marketplaceService.getOffers().stream().sorted(Comparator.comparing(Offer::getCreatedAt).reversed()).toList())
                 .itemProvider(offer -> {
                     ItemBuilder.Builder builder = ItemBuilder.of(offer.getItemStack());
@@ -50,10 +58,9 @@ public class MarketplaceMenu extends PaginatedMenu<Offer> {
                             .itemStack(builder.build())
                             .build();
                 })
-                .item(6, 3, ItemBuilder.of(Material.CLOCK).translatedDisplayName("menu.page.previous").build(), click -> previousPage())
-                .item(6, 5, ItemBuilder.of(Material.PAPER).translatedDisplayName("menu.page.current", context -> context.with("current", this.page + 1)).build())
-                .item(6, 7, ItemBuilder.of(Material.CLOCK).translatedDisplayName("menu.page.next").build(), click -> nextPage())
-                .fillItem(ItemBuilder.FILL_MENU_ITEM)
+                .item(ItemBuilder.of(Material.CLOCK).translatedDisplayName("menu.page.previous").build(), "a", click -> previousPage())
+                .item(ItemBuilder.of(Material.PAPER).translatedDisplayName("menu.page.current", context -> context.with("current", this.page + 1)).build(), "b")
+                .item(ItemBuilder.of(Material.CLOCK).translatedDisplayName("menu.page.next").build(), "c", click -> nextPage())
                 .build();
     }
 }

@@ -19,4 +19,5 @@ public class MenuItem {
     private int slot = -1;
     private ItemStack itemStack;
     private Consumer<Click> function;
+    private String layoutId;
 }
