@@ -1,0 +1,12 @@
+package de.ole101.marketplace.common.configurations;
+
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+
+@Data
+@Slf4j
+public class Configuration {
+
+    private String mongoUri;
+    private String mongoDatabaseName;
+}
