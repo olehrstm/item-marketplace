@@ -1,7 +1,6 @@
 package de.ole101.marketplace.services;
 
 import com.google.inject.Inject;
-import de.ole101.marketplace.MarketplacePlugin;
 import de.ole101.marketplace.common.models.Offer;
 import de.ole101.marketplace.common.models.User;
 import org.bukkit.entity.Player;
