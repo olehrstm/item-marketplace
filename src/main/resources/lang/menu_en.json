@@ -1,5 +1,8 @@
 {
+    "menu.marketplace.item.lore": "<gray>Price: <yellow>{{price}}$<br><gray>Seller: <yellow>{{seller}}<br><gray>Created at: <yellow>{{createdAt}}<br><br>{{existingLore}}<br><br><yellow>Click to buy!",
+    "menu.marketplace.item.lore.empty": "<gray>Price: <yellow>{{price}}$<br><gray>Seller: <yellow>{{seller}}<br><gray>Created at: <yellow>{{createdAt}}</yellow><br><br><yellow>Click to buy!",
     "menu.marketplace.title": "<dark_gray>Marketplace",
-    "menu.page.previous": "<gray>Previous",
-    "menu.page.next": "<gray>Next"
+    "menu.page.current": "<gray>Page <yellow>{{current}}",
+    "menu.page.next": "<gray>Next",
+    "menu.page.previous": "<gray>Previous"
 }

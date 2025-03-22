@@ -110,21 +110,6 @@ public interface ItemBuilder {
             return lore(lines);
         }
 
-        public Builder appendLore(Component... lore) {
-            return appendLore(List.of(lore));
-        }
-
-        public Builder appendLore(List<Component> lore) {
-            List<Component> existingLore = this.itemStack.lore();
-            if (existingLore != null) {
-                existingLore.addAll(lore);
-            } else {
-                existingLore = lore;
-            }
-
-            return lore(existingLore);
-        }
-
         public Builder amount(int amount) {
             this.itemStack.setAmount(amount);
             return this;
