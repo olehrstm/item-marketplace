@@ -38,6 +38,14 @@ public class MarketplacePlugin extends JavaPlugin {
     @Override
     public void onLoad() {
         this.playerService.loadAllUsers();
+        if (!new File(getDataFolder(), "config.json").exists()) {
+            saveResource("config.json", true);
+        }
+        if (!new File(getDataFolder(), "lang").exists() || true) { // TODO: dont forget to remove this (only for dev purposes)
+            saveResource("lang/common_en.json", true);
+            saveResource("lang/command_en.json", true);
+            saveResource("lang/menu_en.json", true);
+        }
     }
 
     @Override

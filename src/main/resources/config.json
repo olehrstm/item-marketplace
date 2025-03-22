@@ -1,0 +1,6 @@
+{
+    "mongoUri": "your_mongo_uri",
+    "mongoDatabaseName": "item_marketplace",
+    "locale": "en",
+    "fallbackLocale": "en"
+}
