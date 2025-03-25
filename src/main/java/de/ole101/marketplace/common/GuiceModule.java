@@ -5,6 +5,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import de.ole101.marketplace.MarketplacePlugin;
 import de.ole101.marketplace.common.configurations.Configuration;
+import de.ole101.marketplace.common.configurations.MenuConfiguration;
 import de.ole101.marketplace.common.i18n.JsonTranslationProvider;
 import de.ole101.marketplace.common.i18n.TranslationService;
 import de.ole101.marketplace.common.i18n.TranslationServiceImpl;
@@ -13,6 +14,7 @@ import de.ole101.marketplace.repositories.UserRepository;
 import de.ole101.marketplace.repositories.impl.UserRepositoryImpl;
 import de.ole101.marketplace.services.ConfigService;
 import de.ole101.marketplace.services.MarketplaceService;
+import de.ole101.marketplace.services.MenuService;
 import de.ole101.marketplace.services.PlayerService;
 import de.ole101.marketplace.services.UserService;
 import de.ole101.marketplace.services.impl.UserServiceImpl;
@@ -35,6 +37,8 @@ public class GuiceModule extends AbstractModule {
         bind(ConfigService.class).toInstance(configService);
         Configuration config = configService.loadConfig(Configuration.class, "config.json");
         bind(Configuration.class).toInstance(config);
+        MenuConfiguration menuConfig = configService.loadConfig(MenuConfiguration.class, "menus.json");
+        bind(MenuConfiguration.class).toInstance(menuConfig);
 
         MongoWrapper mongoWrapper = new MongoWrapper(config);
         bind(MongoWrapper.class).toInstance(mongoWrapper);
@@ -47,6 +51,7 @@ public class GuiceModule extends AbstractModule {
         bind(Registry.class).asEagerSingleton();
         bind(PlayerService.class).asEagerSingleton();
         bind(MarketplaceService.class).asEagerSingleton();
+        bind(MenuService.class).asEagerSingleton();
 
         bind(TranslationService.class).toInstance(TranslationServiceImpl.builder()
                 .provider(new JsonTranslationProvider(config.getFallbackLocale(), "common", "command", "menu"))

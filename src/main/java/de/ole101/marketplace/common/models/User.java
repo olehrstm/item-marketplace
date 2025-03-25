@@ -32,6 +32,8 @@ public class User {
     @Builder.Default
     private List<Offer> offers = new ArrayList<>();
 
+    private long balance;
+
     @BsonIgnore
     public Player getPlayer() {
         return Bukkit.getPlayer(this.uniqueId);

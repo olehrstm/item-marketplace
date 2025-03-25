@@ -54,6 +54,17 @@ public class MarketplaceMenu extends PaginatedMenu<Offer> {
 
                     return MenuItem.builder()
                             .itemStack(builder.build())
+                            .function(click -> {
+                                if (player.getUniqueId().equals(seller.getOfflinePlayer().getUniqueId())) {
+                                    return;
+                                }
+
+                                if (this.user.getBalance() < offer.getPrice()) {
+                                    return;
+                                }
+
+                                new ConfirmMenu(this, offer).open(player);
+                            })
                             .build();
                 })
                 .itemId("1")
