@@ -27,7 +27,7 @@ public class MarketplaceCommand extends CommandBase {
     public @NotNull LiteralArgumentBuilder<CommandSourceStack> builder() {
         return Commands.literal(getLabel()).executes(context -> {
             Player player = player(context);
-            new MarketplaceMenu(this.marketplaceService).open(player);
+            new MarketplaceMenu(this.marketplaceService, user(context)).open(player);
 
             return SINGLE_SUCCESS;
         });

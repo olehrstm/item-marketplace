@@ -31,6 +31,19 @@ public class MarketplacePlugin extends JavaPlugin {
     public MarketplacePlugin() {
         plugin = this;
         MM = MiniMessage.miniMessage();
+
+        if (!new File(getDataFolder(), "config.json").exists()) {
+            saveResource("config.json", false);
+        }
+        if (!new File(getDataFolder(), "menus.json").exists() || true) {
+            saveResource("menus.json", true);
+        }
+        if (!new File(getDataFolder(), "lang").exists() || true) { // TODO: dont forget to remove this (only for dev purposes)
+            saveResource("lang/common_en.json", true);
+            saveResource("lang/command_en.json", true);
+            saveResource("lang/menu_en.json", true);
+        }
+
         this.injector = Guice.createInjector(new GuiceModule(this));
         this.playerService = this.injector.getInstance(PlayerService.class);
     }
@@ -38,14 +51,6 @@ public class MarketplacePlugin extends JavaPlugin {
     @Override
     public void onLoad() {
         this.playerService.loadAllUsers();
-        if (!new File(getDataFolder(), "config.json").exists()) {
-            saveResource("config.json", true);
-        }
-        if (!new File(getDataFolder(), "lang").exists() || true) { // TODO: dont forget to remove this (only for dev purposes)
-            saveResource("lang/common_en.json", true);
-            saveResource("lang/command_en.json", true);
-            saveResource("lang/menu_en.json", true);
-        }
     }
 
     @Override

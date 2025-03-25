@@ -42,7 +42,7 @@ public abstract class Menu implements IMenu {
 
         this.context.getMenuItems().add(ItemBuilder.FILL_MENU_ITEM);
 
-        String[] layout = this.context.getLayout().split("\\n");
+        String[] layout = this.context.getMenuConfiguration().getLayout();
         this.context.getMenuItems().forEach(menuItem -> {
             for (int row = 0; row < layout.length; row++) {
                 for (int col = 0; col < layout[row].length(); col++) {

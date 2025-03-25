@@ -4,5 +4,12 @@
     "menu.marketplace.title": "<dark_gray>Marketplace",
     "menu.page.current": "<gray>Page <yellow>{{current}}",
     "menu.page.next": "<gray>Next",
-    "menu.page.previous": "<gray>Previous"
+    "menu.page.previous": "<gray>Previous",
+    "menu.marketplace.confirm.title": "<dark_gray>Confirm?",
+    "menu.marketplace.confirm.confirm": "<green>Confirm",
+    "menu.marketplace.confirm.cancel": "<red>Cancel",
+    "menu.marketplace.confirm.info": "<gray>Are you sure you want to buy this item?",
+    "menu.marketplace.confirm.info.lore": "<gray>Price: <yellow>{{price}}$<br><gray>Seller: <yellow>{{seller}}<br><gray>Item: <yellow>{{itemAmount}}x {{itemName}}",
+    "marketplace.buy.success": "<gray>You have successfully bought <yellow>{{itemAmount}}x {{itemName}}<gray> for <yellow>{{price}}$<gray> from <yellow>{{seller}}<gray>.",
+    "marketplace.sell.success": "<yellow>{{buyer}} <gray>has bought <yellow>{{itemAmount}}x {{itemName}}<gray> for <yellow>{{price}}$."
 }

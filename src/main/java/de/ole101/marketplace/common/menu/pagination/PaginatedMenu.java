@@ -45,7 +45,7 @@ public abstract class PaginatedMenu<E> extends Menu {
 
         int entriesPerPage = getEntriesPerPage();
         int start = this.page * entriesPerPage;
-        String[] layout = this.context.getLayout().split("\\n");
+        String[] layout = this.context.getMenuConfiguration().getLayout();
 
         List<Integer> paginationSlots = new ArrayList<>();
         for (int row = 0; row < layout.length; row++) {
@@ -95,7 +95,7 @@ public abstract class PaginatedMenu<E> extends Menu {
     }
 
     public int getEntriesPerPage() {
-        String[] layout = this.context.getLayout().split("\\n");
+        String[] layout = this.context.getMenuConfiguration().getLayout();
         return (int) Arrays.stream(layout)
                 .flatMapToInt(String::chars)
                 .mapToObj(c -> String.valueOf((char) c))

@@ -18,7 +18,9 @@ public interface TranslationService {
      */
     default Component translate(String key, Consumer<TranslationContext> contextConsumer) {
         TranslationContext context = new TranslationContext();
-        contextConsumer.accept(context);
+        if (contextConsumer != null) {
+            contextConsumer.accept(context);
+        }
         return translate(key, resolveLocale(), context);
     }
 
@@ -48,7 +50,9 @@ public interface TranslationService {
      */
     default void send(Player player, String key, Consumer<TranslationContext> contextConsumer) {
         TranslationContext context = new TranslationContext();
-        contextConsumer.accept(context);
+        if (contextConsumer != null) {
+            contextConsumer.accept(context);
+        }
         send(player, key, context);
     }
 

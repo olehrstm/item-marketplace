@@ -84,7 +84,7 @@ public interface ItemBuilder {
         }
 
         public Builder translatedDisplayName(String key, Consumer<TranslationContext> consumer) {
-            return displayName(getTranslationService().translate(key, consumer));
+            return displayName(key.isEmpty() ? empty() : getTranslationService().translate(key, consumer));
         }
 
         public Builder lore(Component... lore) {
@@ -103,6 +103,10 @@ public interface ItemBuilder {
         }
 
         public Builder translatedLore(String key, Consumer<TranslationContext> consumer) {
+            if (key.isEmpty()) {
+                return this;
+            }
+
             Component component = getTranslationService().translate(key, consumer);
 
             String serialize = MM.serialize(component); // we need to pass each line separately, because lores don't accept new lines
