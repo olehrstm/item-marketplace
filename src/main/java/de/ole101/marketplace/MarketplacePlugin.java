@@ -35,12 +35,10 @@ public class MarketplacePlugin extends JavaPlugin {
         if (!new File(getDataFolder(), "config.json").exists()) {
             saveResource("config.json", false);
         }
-        new File(getDataFolder(), "menus.json").exists();
-        if (true) {
+        if (!new File(getDataFolder(), "menus.json").exists() || true) {
             saveResource("menus.json", true);
         }
-        new File(getDataFolder(), "lang").exists();
-        if (true) { // TODO: dont forget to remove this (only for dev purposes)
+        if (!new File(getDataFolder(), "lang").exists() || true) { // TODO: dont forget to remove this (only for dev purposes)
             saveResource("lang/common_en.json", true);
             saveResource("lang/command_en.json", true);
             saveResource("lang/menu_en.json", true);
