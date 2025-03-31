@@ -32,6 +32,10 @@ public class User {
     @Builder.Default
     private List<Offer> offers = new ArrayList<>();
 
+    @NotNull
+    @Builder.Default
+    private List<Transaction> transactions = new ArrayList<>();
+
     private long balance;
 
     @BsonIgnore

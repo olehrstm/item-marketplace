@@ -3,6 +3,7 @@ package de.ole101.marketplace.services;
 import com.google.inject.Inject;
 import de.ole101.marketplace.common.i18n.TranslationService;
 import de.ole101.marketplace.common.models.Offer;
+import de.ole101.marketplace.common.models.Transaction;
 import de.ole101.marketplace.common.models.User;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -44,6 +45,7 @@ public class MarketplaceService {
                 .itemStack(itemStack)
                 .price(price)
                 .type(Offer.Type.MARKETPLACE)
+                .seller(player.getUniqueId())
                 .build();
         user.getOffers().add(offer);
 
@@ -68,6 +70,16 @@ public class MarketplaceService {
 
         offer.setBoughtAt(Instant.now());
         offer.setBuyer(buyer.getUniqueId());
+
+        sellerUser.getOffers().remove(offer);
+        sellerUser.getTransactions().add(Transaction.builder()
+                .type(Transaction.Type.SELL)
+                .offer(offer)
+                .build());
+        buyerUser.getTransactions().add(Transaction.builder()
+                .type(Transaction.Type.BUY)
+                .offer(offer)
+                .build());
 
         buyerUser.setBalance(buyerUser.getBalance() - offer.getPrice());
         sellerUser.setBalance(sellerUser.getBalance() + offer.getPrice());

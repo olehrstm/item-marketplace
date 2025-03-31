@@ -1,3 +1,4 @@
 {
-    "error.command.not.player": "<red>You must be a player to execute this command."
+    "error.command.not.player": "<red>You must be a player to execute this command.",
+    "error.command.no.profile": "<red>No player with that name could be found."
 }

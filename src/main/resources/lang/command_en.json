@@ -1,4 +1,7 @@
 {
     "command.sell.noItem": "<red>There is no item in your hand to sell.",
-    "command.sell.success": "<green>You have created an offer for <yellow>{{price}}$<green>."
+    "command.sell.success": "<green>You have created an offer for <yellow>{{price}}$<green>.",
+    "command.transactions.empty": "<red>This player has no transactions.",
+    "command.transactions.header": "<green>Transactions of <yellow>{{player}}<green>:",
+    "command.transactions.entry": "<gray>- <white>{{type}}: <yellow>{{itemName}}<reset> <white>for <yellow>{{price}}$ <white>on <yellow>{{boughtAt}} <white>(ID: <yellow>{{transactionId}}<white>)"
 }

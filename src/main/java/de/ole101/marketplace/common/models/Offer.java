@@ -31,6 +31,9 @@ public class Offer {
     @NotNull
     private Type type;
 
+    @NotNull
+    private UUID seller;
+
     @Nullable
     private UUID buyer;
 

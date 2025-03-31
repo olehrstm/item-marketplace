@@ -23,15 +23,14 @@ import static io.papermc.paper.adventure.PaperAdventure.asVanilla;
 @Setter
 public abstract class CommandBase {
 
+    @Inject
+    protected PlayerService playerService; // TODO: inject this properly
+    @Inject
+    protected TranslationService translationService; // TODO: inject this properly
     private final String label;
     private final String[] aliases;
     private String description;
     private String permission;
-
-    @Inject
-    private PlayerService playerService; // TODO: inject this properly
-    @Inject
-    private TranslationService translationService; // TODO: inject this properly
 
     protected CommandBase(String label, String... aliases) {
         this.label = label;

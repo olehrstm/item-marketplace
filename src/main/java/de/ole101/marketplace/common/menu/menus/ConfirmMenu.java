@@ -3,6 +3,7 @@ package de.ole101.marketplace.common.menu.menus;
 import de.ole101.marketplace.common.menu.Menu;
 import de.ole101.marketplace.common.menu.MenuContext;
 import de.ole101.marketplace.common.models.Offer;
+import de.ole101.marketplace.common.models.User;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.Player;
 
@@ -24,10 +25,14 @@ public class ConfirmMenu extends Menu {
                     this.parent.getMarketplaceService().buyOffer(player, this.offer);
                     close(player);
                 })
-                .item("b", null, context -> context.withNumber("price", this.offer.getPrice())
-                        .with("seller", this.parent.getMarketplaceService().getUserByOffer(this.offer).getOfflinePlayer().getName())
-                        .withNumber("itemAmount", this.offer.getItemStack().getAmount())
-                        .with("itemName", PlainTextComponentSerializer.plainText().serialize(this.offer.getItemStack().effectiveName())))
+                .item("b", null, context -> {
+                    User userByOffer = this.parent.getMarketplaceService().getUserByOffer(this.offer);
+
+                    context.withNumber("price", this.offer.getPrice())
+                            .with("seller", userByOffer == null ? "/" : userByOffer.getOfflinePlayer().getName())
+                            .withNumber("itemAmount", this.offer.getItemStack().getAmount())
+                            .with("itemName", PlainTextComponentSerializer.plainText().serialize(this.offer.getItemStack().effectiveName()));
+                })
                 .item("c", click -> this.parent.open(player))
                 .build();
     }

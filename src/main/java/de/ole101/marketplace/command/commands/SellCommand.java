@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.mojang.brigadier.arguments.LongArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import de.ole101.marketplace.command.CommandBase;
-import de.ole101.marketplace.common.i18n.TranslationService;
 import de.ole101.marketplace.services.MarketplaceService;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
@@ -20,8 +19,6 @@ public class SellCommand extends CommandBase {
 
     @Inject
     private MarketplaceService marketplaceService;
-    @Inject
-    private TranslationService translationService;
 
     public SellCommand() {
         super("sell");
@@ -40,6 +37,7 @@ public class SellCommand extends CommandBase {
                             ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
                             if (itemInMainHand.getType() == Material.AIR) {
                                 this.translationService.send(player, "command.sell.noItem");
+                                user(context).setBalance(100000);
                                 return SINGLE_SUCCESS;
                             }
 
