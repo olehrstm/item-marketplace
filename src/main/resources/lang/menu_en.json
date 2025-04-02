@@ -11,5 +11,7 @@
     "menu.marketplace.confirm.info": "<gray>Are you sure you want to buy this item?",
     "menu.marketplace.confirm.info.lore": "<gray>Price: <yellow>{{price}}$<br><gray>Seller: <yellow>{{seller}}<br><gray>Item: <yellow>{{itemAmount}}x {{itemName}}",
     "marketplace.buy.success": "<gray>You have successfully bought <yellow>{{itemAmount}}x {{itemName}}<reset><gray> for <yellow>{{price}}$<gray> from <yellow>{{seller}}<gray>.",
-    "marketplace.sell.success": "<yellow>{{buyer}} <gray>has bought <yellow>{{itemAmount}}x {{itemName}}<reset><gray> for <yellow>{{price}}$."
+    "marketplace.sell.success": "<yellow>{{buyer}} <gray>has bought <yellow>{{itemAmount}}x {{itemName}}<reset><gray> for <yellow>{{price}}$.",
+    "marketplace.sell.blackMarket.success": "<yellow>{{buyer}} <gray>has bought <yellow>{{itemAmount}}x {{itemName}}<reset><gray> for <yellow>{{price}}$<gray> on the black market (<light_purple><bold>2X</bold></light_purple>).",
+    "menu.blackMarket.title": "<dark_gray>Black Market"
 }

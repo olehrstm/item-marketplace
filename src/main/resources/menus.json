@@ -33,6 +33,36 @@
             ]
         },
         {
+            "id": "black_market",
+            "titleKey": "menu.blackMarket.title",
+            "layout": [
+                "#########",
+                "#1111111#",
+                "#1111111#",
+                "##a#b#c##"
+            ],
+            "items": [
+                {
+                    "material": "CLOCK",
+                    "displayNameKey": "menu.page.previous",
+                    "loreKey": "",
+                    "id": "a"
+                },
+                {
+                    "material": "PAPER",
+                    "displayNameKey": "menu.page.current",
+                    "loreKey": "",
+                    "id": "b"
+                },
+                {
+                    "material": "CLOCK",
+                    "displayNameKey": "menu.page.next",
+                    "loreKey": "",
+                    "id": "c"
+                }
+            ]
+        },
+        {
             "id": "marketplace.confirm",
             "titleKey": "menu.marketplace.confirm.title",
             "layout": [

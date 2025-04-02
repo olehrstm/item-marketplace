@@ -3,5 +3,7 @@
     "mongoDatabaseName": "item_marketplace",
     "webhookUrl": "your_webhook_url",
     "locale": "en",
-    "fallbackLocale": "en"
+    "fallbackLocale": "en",
+    "maxBlackMarketItems": 3,
+    "blackMarketRefreshInterval": 216000
 }

@@ -14,4 +14,6 @@ public class Configuration {
     private String webhookUrl;
     private Locale locale;
     private Locale fallbackLocale;
+    private long maxBlackMarketItems;
+    private long blackMarketRefreshInterval;
 }

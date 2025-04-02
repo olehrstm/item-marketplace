@@ -4,17 +4,20 @@ import de.ole101.marketplace.common.menu.Menu;
 import de.ole101.marketplace.common.menu.MenuContext;
 import de.ole101.marketplace.common.models.Offer;
 import de.ole101.marketplace.common.models.User;
+import de.ole101.marketplace.services.MarketplaceService;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.Player;
 
 public class ConfirmMenu extends Menu {
 
-    private final MarketplaceMenu parent;
+    private final Menu parent;
     private final Offer offer;
+    private final MarketplaceService marketplaceService;
 
-    public ConfirmMenu(MarketplaceMenu parent, Offer offer) {
+    public ConfirmMenu(Menu parent, MarketplaceService marketplaceService, Offer offer) {
         this.parent = parent;
         this.offer = offer;
+        this.marketplaceService = marketplaceService;
     }
 
     @Override
@@ -22,11 +25,11 @@ public class ConfirmMenu extends Menu {
         return MenuContext.builder()
                 .menuId("marketplace.confirm")
                 .item("a", click -> {
-                    this.parent.getMarketplaceService().buyOffer(player, this.offer);
+                    this.marketplaceService.buyOffer(player, this.offer);
                     close(player);
                 })
                 .item("b", null, context -> {
-                    User userByOffer = this.parent.getMarketplaceService().getUserByOffer(this.offer);
+                    User userByOffer = this.marketplaceService.getUserByOffer(this.offer);
 
                     context.withNumber("price", this.offer.getPrice())
                             .with("seller", userByOffer == null ? "/" : userByOffer.getOfflinePlayer().getName())

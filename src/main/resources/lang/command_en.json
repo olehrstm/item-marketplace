@@ -3,5 +3,7 @@
     "command.sell.success": "<green>You have created an offer for <yellow>{{price}}$<green>.",
     "command.transactions.empty": "<red>This player has no transactions.",
     "command.transactions.header": "<green>Transactions of <yellow>{{player}}<green>:",
-    "command.transactions.entry": "<gray>- <white>{{type}}: <yellow>{{itemName}}<reset> <white>for <yellow>{{price}}$ <white>on <yellow>{{boughtAt}} <white>(ID: <yellow>{{transactionId}}<white>)"
+    "command.transactions.entry": "<gray>- <white>{{type}}: <yellow>{{itemName}}<reset> <white>for <yellow>{{price}}$ <white>on <yellow>{{boughtAt}} <white>(ID: <yellow>{{transactionId}}<white>)",
+    "command.blackMarket.refresh.success": "<green>You have refreshed the black market offers.",
+    "blackMarket.refresh": "<green>Your offer for <yellow>{{itemAmount}}x {{itemName}} <green>has been put on the black market."
 }

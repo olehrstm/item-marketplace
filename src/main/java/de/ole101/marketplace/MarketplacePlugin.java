@@ -8,6 +8,7 @@ import de.ole101.marketplace.common.wrapper.MongoWrapper;
 import de.ole101.marketplace.listeners.InventoryListener;
 import de.ole101.marketplace.listeners.JoinListener;
 import de.ole101.marketplace.listeners.QuitListener;
+import de.ole101.marketplace.services.MarketplaceService;
 import de.ole101.marketplace.services.PlayerService;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +16,6 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
 
 @Slf4j
 @Getter
@@ -27,30 +26,29 @@ public class MarketplacePlugin extends JavaPlugin {
     private static MarketplacePlugin plugin;
     private final Injector injector;
     private final PlayerService playerService;
+    private static final String[] RESOURCE_PATHS = {
+            "config.json",
+            "menus.json",
+            "webhooks.json",
+            "lang/common_en.json",
+            "lang/command_en.json",
+            "lang/menu_en.json",
+            "lang/webhook_en.json",
+            "lang/black_market_en.json"
+    };
+    private final MarketplaceService marketplaceService;
 
     public MarketplacePlugin() {
         plugin = this;
         MM = MiniMessage.miniMessage();
 
-        if (!new File(getDataFolder(), "config.json").exists()) {
-            saveResource("config.json", false);
+        for (String resourcePath : RESOURCE_PATHS) {
+            saveResource(resourcePath, false);
         }
-        if (!new File(getDataFolder(), "menus.json").exists() || true) {
-            saveResource("menus.json", true);
-        }
-        new File(getDataFolder(), "webhooks.json").exists();
-        if (!new File(getDataFolder(), "webhooks.json").exists() || true) {
-            saveResource("webhooks.json", true);
-        }
-        if (!new File(getDataFolder(), "lang").exists() || true) { // TODO: dont forget to remove this (only for dev purposes)
-            saveResource("lang/common_en.json", true);
-            saveResource("lang/command_en.json", true);
-            saveResource("lang/menu_en.json", true);
-            saveResource("lang/webhook_en.json", true);
-        } // TODO: migrate to new economy, black market
 
         this.injector = Guice.createInjector(new GuiceModule(this));
         this.playerService = this.injector.getInstance(PlayerService.class);
+        this.marketplaceService = this.injector.getInstance(MarketplaceService.class);
     }
 
     @Override
@@ -73,6 +71,8 @@ public class MarketplacePlugin extends JavaPlugin {
         pluginManager.registerEvents(this.injector.getInstance(JoinListener.class), this);
         pluginManager.registerEvents(this.injector.getInstance(QuitListener.class), this);
         pluginManager.registerEvents(this.injector.getInstance(InventoryListener.class), this);
+
+        this.marketplaceService.scheduleBlackMarketRefresh();
 
         log.info("Enabled ItemMarketplace!");
     }

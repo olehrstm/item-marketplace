@@ -9,6 +9,16 @@
             "titleKey": "webhook.item.bought.title",
             "descriptionKey": "webhook.item.bought.description",
             "color": "#0AAFB7"
+        },
+        "item.bought.blackMarket": {
+            "titleKey": "webhook.item.bought.title",
+            "descriptionKey": "webhook.item.bought.blackMarket.description",
+            "color": "#114CBB"
+        },
+        "blackMarket.refresh": {
+            "titleKey": "webhook.blackMarket.refresh.title",
+            "descriptionKey": "webhook.blackMarket.refresh.description",
+            "color": "#37C305"
         }
     }
 }

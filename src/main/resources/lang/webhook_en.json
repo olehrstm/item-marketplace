@@ -2,5 +2,8 @@
     "webhook.offer.created.title": "Offer Created",
     "webhook.offer.created.description": "{{player}} has created an offer for {{itemAmount}}x {{itemName}} at {{price}}$.",
     "webhook.item.bought.title": "Item Bought",
-    "webhook.item.bought.description": "{{player}} has bought {{itemAmount}}x {{itemName}} for {{price}}$ from {{seller}}."
+    "webhook.item.bought.description": "{{player}} has bought {{itemAmount}}x {{itemName}} for {{price}}$ from {{seller}}.",
+    "webhook.item.bought.blackMarket.description": "{{player}} has bought {{itemAmount}}x {{itemName}} for {{price}}$ from {{seller}} on the black market (2X).",
+    "webhook.blackMarket.refresh.title": "Black Market Refreshed",
+    "webhook.blackMarket.refresh.description": "The black market offers have been refreshed."
 }

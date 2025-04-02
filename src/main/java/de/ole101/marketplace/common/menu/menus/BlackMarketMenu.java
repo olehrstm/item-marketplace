@@ -16,15 +16,15 @@ import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.List;
 
-import static de.ole101.marketplace.common.models.Offer.Type.MARKETPLACE;
+import static de.ole101.marketplace.common.models.Offer.Type.BLACK_MARKET;
 
-public class MarketplaceMenu extends PaginatedMenu<Offer> {
+public class BlackMarketMenu extends PaginatedMenu<Offer> {
 
     @Getter
     private final MarketplaceService marketplaceService;
     private final User user;
 
-    public MarketplaceMenu(MarketplaceService marketplaceService, User user) {
+    public BlackMarketMenu(MarketplaceService marketplaceService, User user) {
         this.marketplaceService = marketplaceService;
         this.user = user;
     }
@@ -32,8 +32,8 @@ public class MarketplaceMenu extends PaginatedMenu<Offer> {
     @Override
     public PaginatedMenuContext<Offer> getMenu(Player player) {
         return PaginatedMenuContext.<Offer>paginated()
-                .menuId("marketplace")
-                .iterable(this.marketplaceService.getOffers().stream().filter(offer -> offer.getType() == MARKETPLACE).filter(offer -> !offer.isBought()).sorted(Comparator.comparing(Offer::getCreatedAt).reversed()).toList())
+                .menuId("black_market")
+                .iterable(this.marketplaceService.getOffers().stream().filter(offer -> offer.getType() == BLACK_MARKET).filter(offer -> !offer.isBought()).sorted(Comparator.comparing(Offer::getCreatedAt).reversed()).toList())
                 .itemProvider(offer -> {
                     ItemBuilder.Builder builder = ItemBuilder.of(offer.getItemStack());
 
