@@ -1,10 +1,12 @@
 package de.ole101.marketplace.services;
 
+import club.minnced.discord.webhook.send.WebhookEmbed;
 import com.google.inject.Inject;
 import de.ole101.marketplace.common.i18n.TranslationService;
 import de.ole101.marketplace.common.models.Offer;
 import de.ole101.marketplace.common.models.Transaction;
 import de.ole101.marketplace.common.models.User;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -13,15 +15,18 @@ import java.util.List;
 
 public class MarketplaceService {
 
+    private static final PlainTextComponentSerializer PLAIN_TEXT_SERIALIZER = PlainTextComponentSerializer.plainText();
     private final UserService userService;
     private final PlayerService playerService;
     private final TranslationService translationService;
+    private final WebhookService webhookService;
 
     @Inject
-    public MarketplaceService(UserService userService, PlayerService playerService, TranslationService translationService) {
+    public MarketplaceService(UserService userService, PlayerService playerService, TranslationService translationService, WebhookService webhookService) {
         this.userService = userService;
         this.playerService = playerService;
         this.translationService = translationService;
+        this.webhookService = webhookService;
     }
 
     public List<Offer> getOffers() {
@@ -50,6 +55,12 @@ public class MarketplaceService {
         user.getOffers().add(offer);
 
         this.userService.update(user);
+
+        this.webhookService.sendEmbed("offer.created", context -> context.with("player", player.getName())
+                .with("itemName", PLAIN_TEXT_SERIALIZER.serialize(itemStack.effectiveName()))
+                .withNumber("itemAmount", itemStack.getAmount())
+                .withNumber("price", price), builder -> builder.setTimestamp(Instant.now())
+                .setAuthor(new WebhookEmbed.EmbedAuthor(player.getName(), String.format("https://minotar.net/helm/%s/100.png", player.getUniqueId()), "")));
     }
 
     public void buyOffer(Player buyer, Offer offer) {
@@ -100,5 +111,12 @@ public class MarketplaceService {
                     .withNumber("itemAmount", itemStack.getAmount())
                     .with("buyer", buyerUser.getOfflinePlayer().getName()));
         }
+
+        this.webhookService.sendEmbed("item.bought", context -> context.with("player", buyer.getName())
+                .with("seller", sellerUser.getOfflinePlayer().getName())
+                .with("itemName", PLAIN_TEXT_SERIALIZER.serialize(itemStack.effectiveName()))
+                .withNumber("itemAmount", itemStack.getAmount())
+                .withNumber("price", offer.getPrice()), builder -> builder.setTimestamp(Instant.now())
+                .setAuthor(new WebhookEmbed.EmbedAuthor(buyer.getName(), String.format("https://minotar.net/helm/%s/100.png", buyer.getUniqueId()), "")));
     }
 }

@@ -1,0 +1,6 @@
+{
+    "webhook.offer.created.title": "Offer Created",
+    "webhook.offer.created.description": "{{player}} has created an offer for {{itemAmount}}x {{itemName}} at {{price}}$.",
+    "webhook.item.bought.title": "Item Bought",
+    "webhook.item.bought.description": "{{player}} has bought {{itemAmount}}x {{itemName}} for {{price}}$ from {{seller}}."
+}

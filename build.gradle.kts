@@ -34,6 +34,7 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.guice)
     implementation(libs.mongodb)
+    implementation(libs.discord.webhooks)
 
     paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
 }

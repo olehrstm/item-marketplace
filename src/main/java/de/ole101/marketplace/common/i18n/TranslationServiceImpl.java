@@ -23,9 +23,14 @@ public class TranslationServiceImpl implements TranslationService {
     }
 
     @Override
-    public Component translate(String key, Locale locale, TranslationContext context) {
+    public String translateRaw(String key, Locale locale, TranslationContext context) {
         String message = getRawTranslation(key, locale);
-        String interpolated = this.interpolator.interpolate(message, context, locale);
+        return this.interpolator.interpolate(message, context, locale);
+    }
+
+    @Override
+    public Component translate(String key, Locale locale, TranslationContext context) {
+        String interpolated = translateRaw(key, locale, context);
         return this.miniMessage.deserialize(interpolated);
     }
 

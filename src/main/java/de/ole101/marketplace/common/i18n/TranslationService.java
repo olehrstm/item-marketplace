@@ -8,6 +8,8 @@ import java.util.function.Consumer;
 
 public interface TranslationService {
 
+    String translateRaw(String key, Locale locale, TranslationContext context);
+
     /**
      * Translates a key with the given context and locale
      */

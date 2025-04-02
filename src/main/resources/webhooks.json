@@ -1,0 +1,14 @@
+{
+    "embeds": {
+        "offer.created": {
+            "titleKey": "webhook.offer.created.title",
+            "descriptionKey": "webhook.offer.created.description",
+            "color": "#37C305"
+        },
+        "item.bought": {
+            "titleKey": "webhook.item.bought.title",
+            "descriptionKey": "webhook.item.bought.description",
+            "color": "#0AAFB7"
+        }
+    }
+}

@@ -1,6 +1,7 @@
 {
     "mongoUri": "your_mongo_uri",
     "mongoDatabaseName": "item_marketplace",
+    "webhookUrl": "your_webhook_url",
     "locale": "en",
     "fallbackLocale": "en"
 }

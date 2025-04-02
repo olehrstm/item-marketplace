@@ -11,6 +11,7 @@ public class Configuration {
 
     private String mongoUri;
     private String mongoDatabaseName;
+    private String webhookUrl;
     private Locale locale;
     private Locale fallbackLocale;
 }
