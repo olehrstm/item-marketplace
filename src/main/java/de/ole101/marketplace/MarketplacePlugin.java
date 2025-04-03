@@ -17,15 +17,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.nio.file.Path;
+
 @Slf4j
 @Getter
 public class MarketplacePlugin extends JavaPlugin {
 
     public static MiniMessage MM;
-    @Getter
-    private static MarketplacePlugin plugin;
-    private final Injector injector;
-    private final PlayerService playerService;
     private static final String[] RESOURCE_PATHS = {
             "config.json",
             "menus.json",
@@ -33,9 +31,12 @@ public class MarketplacePlugin extends JavaPlugin {
             "lang/common_en.json",
             "lang/command_en.json",
             "lang/menu_en.json",
-            "lang/webhook_en.json",
-            "lang/black_market_en.json"
+            "lang/webhook_en.json"
     };
+    @Getter
+    private static MarketplacePlugin plugin;
+    private final Injector injector;
+    private final PlayerService playerService;
     private final MarketplaceService marketplaceService;
 
     public MarketplacePlugin() {
@@ -43,6 +44,10 @@ public class MarketplacePlugin extends JavaPlugin {
         MM = MiniMessage.miniMessage();
 
         for (String resourcePath : RESOURCE_PATHS) {
+            if (!Path.of(resourcePath).toFile().exists()) {
+                continue;
+            }
+
             saveResource(resourcePath, false);
         }
 

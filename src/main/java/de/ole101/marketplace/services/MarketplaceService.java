@@ -114,7 +114,7 @@ public class MarketplaceService {
         this.userService.update(sellerUser);
 
         long finalPrice = price;
-        this.translationService.send(buyer, "marketplace.buy.success", context -> context.withNumber("price", finalPrice)
+        this.translationService.send(buyer, "marketplace.buy.success", context -> context.withNumber("price", offer.getPrice()) // original price
                 .with("itemName", itemStack.effectiveName())
                 .withNumber("itemAmount", itemStack.getAmount())
                 .with("seller", sellerUser.getOfflinePlayer().getName()));
