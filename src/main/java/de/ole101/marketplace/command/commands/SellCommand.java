@@ -37,7 +37,6 @@ public class SellCommand extends CommandBase {
                             ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
                             if (itemInMainHand.getType() == Material.AIR) {
                                 this.translationService.send(player, "command.sell.noItem");
-                                user(context).setBalance(100000);
                                 return SINGLE_SUCCESS;
                             }
 
