@@ -24,9 +24,9 @@ import static io.papermc.paper.adventure.PaperAdventure.asVanilla;
 public abstract class CommandBase {
 
     @Inject
-    protected PlayerService playerService; // TODO: inject this properly
+    protected PlayerService playerService;
     @Inject
-    protected TranslationService translationService; // TODO: inject this properly
+    protected TranslationService translationService;
     private final String label;
     private final String[] aliases;
     private String description;

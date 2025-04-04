@@ -157,7 +157,7 @@ public class MarketplaceService {
             if (offer.getType() == Offer.Type.BLACK_MARKET) {
                 offer.setType(Offer.Type.MARKETPLACE);
                 offer.setPrice(offer.getPrice() * 2);
-                User userByOffer = this.getUserByOffer(offer);
+                User userByOffer = getUserByOffer(offer);
                 this.userService.update(userByOffer);
             }
         }
@@ -174,7 +174,7 @@ public class MarketplaceService {
         for (Offer offer : selectedOffers) {
             offer.setType(Offer.Type.BLACK_MARKET);
             offer.setPrice(offer.getPrice() / 2);
-            User userByOffer = this.getUserByOffer(offer);
+            User userByOffer = getUserByOffer(offer);
             this.userService.update(userByOffer);
 
             Player player = userByOffer.getPlayer();

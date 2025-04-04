@@ -18,28 +18,32 @@ public class InventoryListener implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         Inventory inventory = event.getInventory();
 
-        if (inventory.getHolder() instanceof Menu menu) {
-            event.setCancelled(true);
-
-            if (event.getCurrentItem() == null) {
-                return;
-            }
-
-            menu.onClick((Player) event.getWhoClicked(), event.getClick(), event.getCurrentItem(), event);
+        if (!(inventory.getHolder() instanceof Menu menu)) {
+            return;
         }
+
+        event.setCancelled(true);
+
+        if (event.getCurrentItem() == null) {
+            return;
+        }
+
+        menu.onClick((Player) event.getWhoClicked(), event.getClick(), event.getCurrentItem(), event);
     }
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
         Inventory inventory = event.getInventory();
 
-        if (inventory.getHolder() instanceof Menu menu) {
-            Consumer<Player> closeConsumer = menu.getContext().getCloseConsumer();
-            if (closeConsumer == null) {
-                return;
-            }
-
-            closeConsumer.accept((Player) event.getPlayer());
+        if (!(inventory.getHolder() instanceof Menu menu)) {
+            return;
         }
+
+        Consumer<Player> closeConsumer = menu.getContext().getCloseConsumer();
+        if (closeConsumer == null) {
+            return;
+        }
+
+        closeConsumer.accept((Player) event.getPlayer());
     }
 }
