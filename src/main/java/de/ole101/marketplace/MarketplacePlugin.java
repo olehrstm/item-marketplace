@@ -44,7 +44,7 @@ public class MarketplacePlugin extends JavaPlugin {
         MM = MiniMessage.miniMessage();
 
         for (String resourcePath : RESOURCE_PATHS) {
-            if (!Path.of(resourcePath).toFile().exists()) {
+            if (Path.of(resourcePath).toFile().exists()) {
                 continue;
             }
 
