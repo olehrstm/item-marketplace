@@ -125,20 +125,20 @@ public class MarketplaceService {
                 this.translationService.send(seller, "marketplace.sell.blackMarket.success", context -> context.withNumber("price", finalPrice)
                         .with("itemName", itemStack.effectiveName())
                         .withNumber("itemAmount", itemStack.getAmount())
-                        .with("buyer", buyerUser.getOfflinePlayer().getName()));
+                        .with("buyer", buyer.getName()));
             } else {
                 this.translationService.send(seller, "marketplace.sell.success", context -> context.withNumber("price", finalPrice)
                         .with("itemName", itemStack.effectiveName())
                         .withNumber("itemAmount", itemStack.getAmount())
-                        .with("buyer", buyerUser.getOfflinePlayer().getName()));
+                        .with("buyer", buyer.getName()));
             }
         }
 
-        this.webhookService.sendEmbed(isBlackMarket ? "item.bought.blackMarket" : "item.bought", context -> context.with("player", finalPrice)
+        this.webhookService.sendEmbed(isBlackMarket ? "item.bought.blackMarket" : "item.bought", context -> context.with("player", buyer.getName())
                 .with("seller", sellerUser.getOfflinePlayer().getName())
                 .with("itemName", PLAIN_TEXT_SERIALIZER.serialize(itemStack.effectiveName()))
                 .withNumber("itemAmount", itemStack.getAmount())
-                .withNumber("price", offer.getPrice()), builder -> builder.setTimestamp(Instant.now())
+                .withNumber("price", finalPrice), builder -> builder.setTimestamp(Instant.now())
                 .setAuthor(new WebhookEmbed.EmbedAuthor(buyer.getName(), String.format("https://minotar.net/helm/%s/100.png", buyer.getUniqueId()), "")));
     }
 
