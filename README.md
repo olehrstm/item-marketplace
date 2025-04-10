@@ -7,7 +7,7 @@ This project was created specifically for a **private commission** and is **not 
 All rights are reserved by the author.
 No permission is granted to use, copy, modify, or redistribute any part of this software.
 
-If you have any questions, please contact: [contact@ole101.de]
+If you have any questions, please contact: contact@ole101.de
 
 ## menus.json
 - `#` default is glass pane
