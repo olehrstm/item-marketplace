@@ -1,6 +1,6 @@
 [versions]
 lombok = "1.18.38"
-gson = "2.12.1"
+gson = "2.13.1"
 annotations = "26.0.2"
 guice = "7.0.0"
 mongodb = "5.5.1"
