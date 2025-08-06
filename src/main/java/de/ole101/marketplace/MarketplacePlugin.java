@@ -2,6 +2,7 @@ package de.ole101.marketplace;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
 import de.ole101.marketplace.common.GuiceModule;
 import de.ole101.marketplace.common.Registry;
 import de.ole101.marketplace.common.wrapper.MongoWrapper;
@@ -10,9 +11,12 @@ import de.ole101.marketplace.listeners.JoinListener;
 import de.ole101.marketplace.listeners.QuitListener;
 import de.ole101.marketplace.services.MarketplaceService;
 import de.ole101.marketplace.services.PlayerService;
+
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+
 import net.kyori.adventure.text.minimessage.MiniMessage;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -78,6 +82,8 @@ public class MarketplacePlugin extends JavaPlugin {
         pluginManager.registerEvents(this.injector.getInstance(InventoryListener.class), this);
 
         this.marketplaceService.scheduleBlackMarketRefresh();
+
+        log.info("test");
 
         log.info("Enabled ItemMarketplace!");
     }

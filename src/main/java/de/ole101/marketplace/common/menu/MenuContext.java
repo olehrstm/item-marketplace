@@ -55,11 +55,13 @@ public class MenuContext {
             return item(id, null, null, function);
         }
 
-        public Builder item(String id, Consumer<TranslationContext> nameContext, Consumer<TranslationContext> loreContext) {
+        public Builder item(String id, Consumer<TranslationContext> nameContext,
+                Consumer<TranslationContext> loreContext) {
             return item(id, nameContext, loreContext, null);
         }
 
-        public Builder item(String id, Consumer<TranslationContext> nameContext, Consumer<TranslationContext> loreContext, Consumer<Click> function) {
+        public Builder item(String id, Consumer<TranslationContext> nameContext,
+                Consumer<TranslationContext> loreContext, Consumer<Click> function) {
             MenuConfiguration.MenuItem menuItem = getMenuConfiguration().getItems().stream()
                     .filter(item -> item.getId().equals(id))
                     .findFirst().orElseThrow();
@@ -76,7 +78,9 @@ public class MenuContext {
         }
 
         public MenuContext build() {
-            return new MenuContext(getMenuConfiguration(), getTranslationService().translate(getMenuConfiguration().getTitleKey()), this.menuItems, this.closeConsumer);
+            return new MenuContext(getMenuConfiguration(),
+                    getTranslationService().translate(getMenuConfiguration().getTitleKey()), this.menuItems,
+                    this.closeConsumer);
         }
 
         private MenuConfiguration.Menu getMenuConfiguration() {
@@ -101,3 +105,4 @@ public class MenuContext {
         }
     }
 }
+

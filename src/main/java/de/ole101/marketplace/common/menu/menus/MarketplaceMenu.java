@@ -33,23 +33,27 @@ public class MarketplaceMenu extends PaginatedMenu<Offer> {
     public PaginatedMenuContext<Offer> getMenu(Player player) {
         return PaginatedMenuContext.<Offer>paginated()
                 .menuId("marketplace")
-                .iterable(this.marketplaceService.getOffers().stream().filter(offer -> offer.getType() == MARKETPLACE).filter(offer -> !offer.isBought()).sorted(Comparator.comparing(Offer::getCreatedAt).reversed()).toList())
+                .iterable(this.marketplaceService.getOffers().stream().filter(offer -> offer.getType() == MARKETPLACE)
+                        .filter(offer -> !offer.isBought()).sorted(Comparator.comparing(Offer::getCreatedAt).reversed())
+                        .toList())
                 .itemProvider(offer -> {
                     ItemBuilder.Builder builder = ItemBuilder.of(offer.getItemStack());
 
                     List<Component> lore = offer.getItemStack().lore();
                     User seller = this.marketplaceService.getUserByOffer(offer);
                     if (lore == null || lore.isEmpty()) {
-                        builder.translatedLore("menu.marketplace.item.lore.empty", context -> context.withNumber("price", offer.getPrice())
-                                .with("seller", seller.getOfflinePlayer().getName())
-                                .withDateTime("createdAt", LocalDateTime.ofInstant(offer.getCreatedAt(), ZoneId.systemDefault()))
-                        );
+                        builder.translatedLore("menu.marketplace.item.lore.empty",
+                                context -> context.withNumber("price", offer.getPrice())
+                                        .with("seller", seller.getOfflinePlayer().getName())
+                                        .withDateTime("createdAt",
+                                                LocalDateTime.ofInstant(offer.getCreatedAt(), ZoneId.systemDefault())));
                     } else {
-                        builder.translatedLore("menu.marketplace.item.lore", context -> context.withNumber("price", offer.getPrice())
-                                .with("seller", seller.getOfflinePlayer().getName())
-                                .withDateTime("createdAt", LocalDateTime.ofInstant(offer.getCreatedAt(), ZoneId.systemDefault()))
-                                .with("existingLore", lore)
-                        );
+                        builder.translatedLore("menu.marketplace.item.lore",
+                                context -> context.withNumber("price", offer.getPrice())
+                                        .with("seller", seller.getOfflinePlayer().getName())
+                                        .withDateTime("createdAt",
+                                                LocalDateTime.ofInstant(offer.getCreatedAt(), ZoneId.systemDefault()))
+                                        .with("existingLore", lore));
                     }
 
                     return MenuItem.builder()
@@ -74,3 +78,4 @@ public class MarketplaceMenu extends PaginatedMenu<Offer> {
                 .build();
     }
 }
+

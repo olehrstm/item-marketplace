@@ -22,8 +22,7 @@ import java.util.stream.Collectors;
 public class DefaultInterpolator implements Interpolator {
 
     private static final Pattern PLURAL_PATTERN = Pattern.compile(
-            "\\{\\{\\s*plural:(\\w+),\\s*one\\s*\\{([^}]+)}\\s*other\\s*\\{([^}]+)}(?:\\s*zero\\s*\\{([^}]+)})?\\s*}}"
-    );
+            "\\{\\{\\s*plural:(\\w+),\\s*one\\s*\\{([^}]+)}\\s*other\\s*\\{([^}]+)}(?:\\s*zero\\s*\\{([^}]+)})?\\s*}}");
     private static final Pattern VARIABLE_PATTERN = Pattern.compile("\\{\\{\\s*(.+?)\\s*}}");
     private final Map<Locale, NumberFormat> numberFormatCache = new ConcurrentHashMap<>();
     private final Map<Locale, DateTimeFormatter> dateTimeFormatCache = new ConcurrentHashMap<>();
@@ -139,14 +138,12 @@ public class DefaultInterpolator implements Interpolator {
 
     private DateTimeFormatter getDateTimeFormatter(Locale locale) {
         return this.dateTimeFormatCache.computeIfAbsent(
-                locale, l -> DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).withLocale(l)
-        );
+                locale, l -> DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).withLocale(l));
     }
 
     private DateTimeFormatter getDateFormatter(Locale locale) {
         return this.dateFormatCache.computeIfAbsent(
-                locale, l -> DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(l)
-        );
+                locale, l -> DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(l));
     }
 
     private String formatDuration(Duration duration, Locale locale) {

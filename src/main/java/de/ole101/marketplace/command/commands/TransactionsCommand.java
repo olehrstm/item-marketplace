@@ -7,7 +7,6 @@ import de.ole101.marketplace.command.CommandBase;
 import de.ole101.marketplace.common.models.Offer;
 import de.ole101.marketplace.common.models.Transaction;
 import de.ole101.marketplace.common.models.User;
-import de.ole101.marketplace.services.MarketplaceService;
 import de.ole101.marketplace.services.PlayerService;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;

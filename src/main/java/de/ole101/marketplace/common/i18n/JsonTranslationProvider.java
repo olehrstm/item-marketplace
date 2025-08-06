@@ -41,7 +41,8 @@ public class JsonTranslationProvider implements TranslationProvider {
             }
             // If still not found, log a warning
             if (translation == null) {
-                log.warn("Translation not found for key: {} in locale: {}. Falling back to default locale: {}", key, locale, this.fallbackLocale);
+                log.warn("Translation not found for key: {} in locale: {}. Falling back to default locale: {}", key,
+                        locale, this.fallbackLocale);
                 translation = "Translation not found for key: " + key;
             }
         }
@@ -94,3 +95,4 @@ public class JsonTranslationProvider implements TranslationProvider {
         return props;
     }
 }
+

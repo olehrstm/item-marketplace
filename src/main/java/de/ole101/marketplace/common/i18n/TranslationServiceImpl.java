@@ -18,7 +18,8 @@ public class TranslationServiceImpl implements TranslationService {
         this.provider = builder.provider;
         this.fallbackLocale = builder.fallbackLocale;
         this.miniMessage = builder.miniMessage;
-        this.interpolator = builder.interpolator != null ? builder.interpolator : new DefaultInterpolator(this.miniMessage);
+        this.interpolator = builder.interpolator != null ? builder.interpolator
+                : new DefaultInterpolator(this.miniMessage);
         this.localeSupplier = builder.localeSupplier != null ? builder.localeSupplier : () -> this.fallbackLocale;
     }
 

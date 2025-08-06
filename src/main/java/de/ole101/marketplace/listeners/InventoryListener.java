@@ -1,7 +1,9 @@
 package de.ole101.marketplace.listeners;
 
 import de.ole101.marketplace.common.menu.Menu;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,7 +30,8 @@ public class InventoryListener implements Listener {
             return;
         }
 
-        menu.onClick((Player) event.getWhoClicked(), event.getClick(), event.getCurrentItem(), event);
+        menu.onClick(
+                (Player) event.getWhoClicked(), event.getClick(), event.getCurrentItem(), event);
     }
 
     @EventHandler
@@ -47,3 +50,4 @@ public class InventoryListener implements Listener {
         closeConsumer.accept((Player) event.getPlayer());
     }
 }
+

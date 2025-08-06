@@ -28,3 +28,4 @@ public interface IMenu extends InventoryHolder {
         player.closeInventory();
     }
 }
+

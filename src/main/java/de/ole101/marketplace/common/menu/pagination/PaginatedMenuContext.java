@@ -28,7 +28,8 @@ public class PaginatedMenuContext<E> extends MenuContext {
     private Function<E, MenuItem> itemProvider;
     private String itemId;
 
-    public PaginatedMenuContext(MenuConfiguration.Menu menuConfiguration, Component title, Set<MenuItem> menuItems, Consumer<Player> closeConsumer, Iterable<E> iterable, Function<E, MenuItem> itemProvider, String itemId) {
+    public PaginatedMenuContext(MenuConfiguration.Menu menuConfiguration, Component title, Set<MenuItem> menuItems,
+            Consumer<Player> closeConsumer, Iterable<E> iterable, Function<E, MenuItem> itemProvider, String itemId) {
         super(menuConfiguration, title, menuItems, closeConsumer);
         this.iterable = iterable;
         this.itemProvider = itemProvider;
@@ -61,11 +62,13 @@ public class PaginatedMenuContext<E> extends MenuContext {
             return item(id, null, null, function);
         }
 
-        public Builder<E> item(String id, Consumer<TranslationContext> nameContext, Consumer<TranslationContext> loreContext) {
+        public Builder<E> item(String id, Consumer<TranslationContext> nameContext,
+                Consumer<TranslationContext> loreContext) {
             return item(id, nameContext, loreContext, null);
         }
 
-        public Builder<E> item(String id, Consumer<TranslationContext> nameContext, Consumer<TranslationContext> loreContext, Consumer<Click> function) {
+        public Builder<E> item(String id, Consumer<TranslationContext> nameContext,
+                Consumer<TranslationContext> loreContext, Consumer<Click> function) {
             MenuConfiguration.MenuItem menuItem = getMenuConfiguration().getItems().stream()
                     .filter(item -> item.getId().equals(id))
                     .findFirst().orElseThrow();
@@ -82,7 +85,9 @@ public class PaginatedMenuContext<E> extends MenuContext {
         }
 
         public PaginatedMenuContext<E> build() {
-            return new PaginatedMenuContext<>(getMenuConfiguration(), getTranslationService().translate(getMenuConfiguration().getTitleKey()), this.menuItems, this.closeConsumer, this.iterable, this.itemProvider, this.itemId);
+            return new PaginatedMenuContext<>(getMenuConfiguration(),
+                    getTranslationService().translate(getMenuConfiguration().getTitleKey()), this.menuItems,
+                    this.closeConsumer, this.iterable, this.itemProvider, this.itemId);
         }
 
         private MenuConfiguration.Menu getMenuConfiguration() {
@@ -107,3 +112,4 @@ public class PaginatedMenuContext<E> extends MenuContext {
         }
     }
 }
+

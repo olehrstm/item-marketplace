@@ -7,3 +7,4 @@ public interface TranslationProvider {
 
     String getTranslation(Locale locale, String key);
 }
+

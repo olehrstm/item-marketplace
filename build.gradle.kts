@@ -55,7 +55,7 @@ tasks {
         from(
             sourceSets.main
                 .get()
-                .resources.srcDirs
+                .resources.srcDirs,
         ) {
             filesMatching("paper-plugin.yml") {
                 expand("version" to project.version)
@@ -68,3 +68,4 @@ tasks {
         minecraftVersion("1.21.8")
     }
 }
+

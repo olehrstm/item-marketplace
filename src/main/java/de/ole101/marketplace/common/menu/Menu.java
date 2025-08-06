@@ -68,7 +68,8 @@ public abstract class Menu implements IMenu {
     @Override
     public void onClick(Player player, ClickType clickType, ItemStack clickedItem, InventoryClickEvent event) {
         this.context.getMenuItems().stream()
-                .filter(menuItem -> menuItem.getUniqueId().toString().equals(clickedItem.getPersistentDataContainer().get(UUID_KEY, PersistentDataType.STRING)))
+                .filter(menuItem -> menuItem.getUniqueId().toString()
+                        .equals(clickedItem.getPersistentDataContainer().get(UUID_KEY, PersistentDataType.STRING)))
                 .findFirst()
                 .filter(menuItem -> menuItem.getFunction() != null)
                 .ifPresent(menuItem -> menuItem.getFunction().accept(new Click(player, clickType, event)));
@@ -92,7 +93,8 @@ public abstract class Menu implements IMenu {
         menuItem.setUniqueId(uniqueId);
 
         ItemStack itemStack = menuItem.getItemStack();
-        itemStack.editMeta(meta -> meta.getPersistentDataContainer().set(UUID_KEY, PersistentDataType.STRING, menuItem.getUniqueId().toString()));
+        itemStack.editMeta(meta -> meta.getPersistentDataContainer().set(UUID_KEY, PersistentDataType.STRING,
+                menuItem.getUniqueId().toString()));
         this.inventory.setItem(menuItem.getSlot(), itemStack);
 
         this.context.getMenuItems().add(menuItem);
@@ -108,3 +110,4 @@ public abstract class Menu implements IMenu {
         return this.inventory;
     }
 }
+

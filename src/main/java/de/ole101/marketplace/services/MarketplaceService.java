@@ -1,14 +1,18 @@
 package de.ole101.marketplace.services;
 
 import club.minnced.discord.webhook.send.WebhookEmbed;
+
 import com.google.inject.Inject;
+
 import de.ole101.marketplace.MarketplacePlugin;
 import de.ole101.marketplace.common.configurations.Configuration;
 import de.ole101.marketplace.common.i18n.TranslationService;
 import de.ole101.marketplace.common.models.Offer;
 import de.ole101.marketplace.common.models.Transaction;
 import de.ole101.marketplace.common.models.User;
+
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -28,8 +32,12 @@ public class MarketplaceService {
     private final WebhookService webhookService;
 
     @Inject
-    public MarketplaceService(Configuration configuration, UserService userService, PlayerService playerService,
-            TranslationService translationService, WebhookService webhookService) {
+    public MarketplaceService(
+            Configuration configuration,
+            UserService userService,
+            PlayerService playerService,
+            TranslationService translationService,
+            WebhookService webhookService) {
         this.configuration = configuration;
         this.userService = userService;
         this.playerService = playerService;
@@ -64,13 +72,22 @@ public class MarketplaceService {
 
         this.userService.update(user);
 
-        this.webhookService.sendEmbed("offer.created", context -> context.with("player", player.getName())
-                .with("itemName", PLAIN_TEXT_SERIALIZER.serialize(itemStack.effectiveName()))
-                .withNumber("itemAmount", itemStack.getAmount())
-                .withNumber("price", price),
+        this.webhookService.sendEmbed(
+                "offer.created",
+                context -> context.with("player", player.getName())
+                        .with(
+                                "itemName",
+                                PLAIN_TEXT_SERIALIZER.serialize(itemStack.effectiveName()))
+                        .withNumber("itemAmount", itemStack.getAmount())
+                        .withNumber("price", price),
                 builder -> builder.setTimestamp(Instant.now())
-                        .setAuthor(new WebhookEmbed.EmbedAuthor(player.getName(),
-                                String.format("https://minotar.net/helm/%s/100.png", player.getUniqueId()), "")));
+                        .setAuthor(
+                                new WebhookEmbed.EmbedAuthor(
+                                        player.getName(),
+                                        String.format(
+                                                "https://minotar.net/helm/%s/101.png",
+                                                player.getUniqueId()),
+                                        "")));
     }
 
     public void buyOffer(Player buyer, Offer offer) {
@@ -93,14 +110,12 @@ public class MarketplaceService {
         offer.setBuyer(buyer.getUniqueId());
 
         sellerUser.getOffers().remove(offer);
-        sellerUser.getTransactions().add(Transaction.builder()
-                .type(Transaction.Type.SELL)
-                .offer(offer)
-                .build());
-        buyerUser.getTransactions().add(Transaction.builder()
-                .type(Transaction.Type.BUY)
-                .offer(offer)
-                .build());
+        sellerUser
+                .getTransactions()
+                .add(Transaction.builder().type(Transaction.Type.SELL).offer(offer).build());
+        buyerUser
+                .getTransactions()
+                .add(Transaction.builder().type(Transaction.Type.BUY).offer(offer).build());
 
         buyerUser.setBalance(buyerUser.getBalance() - offer.getPrice());
 
@@ -117,7 +132,9 @@ public class MarketplaceService {
         this.userService.update(sellerUser);
 
         long finalPrice = price;
-        this.translationService.send(buyer, "marketplace.buy.success",
+        this.translationService.send(
+                buyer,
+                "marketplace.buy.success",
                 context -> context.withNumber("price", offer.getPrice()) // original price
                         .with("itemName", itemStack.effectiveName())
                         .withNumber("itemAmount", itemStack.getAmount())
@@ -126,13 +143,17 @@ public class MarketplaceService {
         Player seller = sellerUser.getPlayer();
         if (seller != null) {
             if (isBlackMarket) {
-                this.translationService.send(seller, "marketplace.sell.blackMarket.success",
+                this.translationService.send(
+                        seller,
+                        "marketplace.sell.blackMarket.success",
                         context -> context.withNumber("price", finalPrice)
                                 .with("itemName", itemStack.effectiveName())
                                 .withNumber("itemAmount", itemStack.getAmount())
                                 .with("buyer", buyer.getName()));
             } else {
-                this.translationService.send(seller, "marketplace.sell.success",
+                this.translationService.send(
+                        seller,
+                        "marketplace.sell.success",
                         context -> context.withNumber("price", finalPrice)
                                 .with("itemName", itemStack.effectiveName())
                                 .withNumber("itemAmount", itemStack.getAmount())
@@ -140,21 +161,32 @@ public class MarketplaceService {
             }
         }
 
-        this.webhookService.sendEmbed(isBlackMarket ? "item.bought.blackMarket" : "item.bought",
+        this.webhookService.sendEmbed(
+                isBlackMarket ? "item.bought.blackMarket" : "item.bought",
                 context -> context.with("player", buyer.getName())
                         .with("seller", sellerUser.getOfflinePlayer().getName())
-                        .with("itemName", PLAIN_TEXT_SERIALIZER.serialize(itemStack.effectiveName()))
+                        .with(
+                                "itemName",
+                                PLAIN_TEXT_SERIALIZER.serialize(itemStack.effectiveName()))
                         .withNumber("itemAmount", itemStack.getAmount())
                         .withNumber("price", finalPrice),
                 builder -> builder.setTimestamp(Instant.now())
-                        .setAuthor(new WebhookEmbed.EmbedAuthor(buyer.getName(),
-                                String.format("https://minotar.net/helm/%s/100.png", buyer.getUniqueId()), "")));
+                        .setAuthor(
+                                new WebhookEmbed.EmbedAuthor(
+                                        buyer.getName(),
+                                        String.format(
+                                                "https://minotar.net/helm/%s/100.png",
+                                                buyer.getUniqueId()),
+                                        "")));
     }
 
     public void scheduleBlackMarketRefresh() {
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(MarketplacePlugin.getPlugin(),
-                () -> refreshBlackMarket(this.configuration.getMaxBlackMarketItems()), 0L,
-                this.configuration.getBlackMarketRefreshInterval() * 20L);
+        Bukkit.getScheduler()
+                .scheduleSyncRepeatingTask(
+                        MarketplacePlugin.getPlugin(),
+                        () -> refreshBlackMarket(this.configuration.getMaxBlackMarketItems()),
+                        0L,
+                        this.configuration.getBlackMarketRefreshInterval() * 20L);
     }
 
     public void refreshBlackMarket(long maxItems) {
@@ -178,9 +210,7 @@ public class MarketplaceService {
                 .collect(Collectors.toList());
 
         Collections.shuffle(filteredOffers);
-        List<Offer> selectedOffers = filteredOffers.stream()
-                .limit(maxItems)
-                .toList();
+        List<Offer> selectedOffers = filteredOffers.stream().limit(maxItems).toList();
 
         for (Offer offer : selectedOffers) {
             offer.setType(Offer.Type.BLACK_MARKET);
@@ -190,12 +220,17 @@ public class MarketplaceService {
 
             Player player = userByOffer.getPlayer();
             if (player != null) {
-                this.translationService.send(player, "blackMarket.refresh",
+                this.translationService.send(
+                        player,
+                        "blackMarket.refresh",
                         context -> context.with("itemName", offer.getItemStack().effectiveName())
-                                .withNumber("itemAmount", offer.getItemStack().getAmount()));
+                                .withNumber(
+                                        "itemAmount", offer.getItemStack().getAmount()));
             }
         }
 
-        this.webhookService.sendEmbed("blackMarket.refresh", builder -> builder.setTimestamp(Instant.now()));
+        this.webhookService.sendEmbed(
+                "blackMarket.refresh", builder -> builder.setTimestamp(Instant.now()));
     }
 }
+

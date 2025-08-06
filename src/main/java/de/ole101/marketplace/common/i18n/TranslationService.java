@@ -16,7 +16,8 @@ public interface TranslationService {
     Component translate(String key, Locale locale, TranslationContext context);
 
     /**
-     * Translates a key with a provided context builder and resolves locale automatically
+     * Translates a key with a provided context builder and resolves locale
+     * automatically
      */
     default Component translate(String key, Consumer<TranslationContext> contextConsumer) {
         TranslationContext context = new TranslationContext();
@@ -48,7 +49,8 @@ public interface TranslationService {
     }
 
     /**
-     * Sends a translated message to the specified player with the given context builder
+     * Sends a translated message to the specified player with the given context
+     * builder
      */
     default void send(Player player, String key, Consumer<TranslationContext> contextConsumer) {
         TranslationContext context = new TranslationContext();
@@ -73,7 +75,8 @@ public interface TranslationService {
     }
 
     /**
-     * Gets the raw translation string without interpolation or MiniMessage processing
+     * Gets the raw translation string without interpolation or MiniMessage
+     * processing
      */
     String getRawTranslation(String key, Locale locale);
 

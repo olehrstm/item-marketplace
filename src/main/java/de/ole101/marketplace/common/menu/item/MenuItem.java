@@ -21,3 +21,4 @@ public class MenuItem {
     private Consumer<Click> function;
     private String layoutId;
 }
+

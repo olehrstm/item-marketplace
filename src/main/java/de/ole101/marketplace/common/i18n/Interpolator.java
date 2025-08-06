@@ -7,3 +7,4 @@ public interface Interpolator {
 
     String interpolate(String message, TranslationContext context, Locale locale);
 }
+

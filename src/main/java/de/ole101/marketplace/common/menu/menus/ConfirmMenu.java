@@ -34,9 +34,11 @@ public class ConfirmMenu extends Menu {
                     context.withNumber("price", this.offer.getPrice())
                             .with("seller", userByOffer == null ? "/" : userByOffer.getOfflinePlayer().getName())
                             .withNumber("itemAmount", this.offer.getItemStack().getAmount())
-                            .with("itemName", PlainTextComponentSerializer.plainText().serialize(this.offer.getItemStack().effectiveName()));
+                            .with("itemName", PlainTextComponentSerializer.plainText()
+                                    .serialize(this.offer.getItemStack().effectiveName()));
                 })
                 .item("c", click -> this.parent.open(player))
                 .build();
     }
 }
+

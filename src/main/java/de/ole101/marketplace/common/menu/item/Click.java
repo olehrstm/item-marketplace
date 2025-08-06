@@ -14,3 +14,4 @@ public class Click {
     private ClickType clickType;
     private InventoryClickEvent event;
 }
+
