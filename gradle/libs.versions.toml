@@ -7,7 +7,7 @@ mongodb = "5.4.0"
 discord-webhooks = "0.8.4"
 
 shadow = "8.1.1"
-paperweight-userdev = "2.0.0-beta.16"
+paperweight-userdev = "2.0.0-beta.18"
 run-paper = "2.3.1"
 
 [libraries]
