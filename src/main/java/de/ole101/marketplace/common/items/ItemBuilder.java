@@ -80,7 +80,8 @@ public interface ItemBuilder {
         }
 
         public Builder translatedDisplayName(String key) {
-            return translatedDisplayName(key, context -> {});
+            return translatedDisplayName(key, context -> {
+            });
         }
 
         public Builder translatedDisplayName(String key, Consumer<TranslationContext> consumer) {
@@ -99,7 +100,8 @@ public interface ItemBuilder {
         }
 
         public Builder translatedLore(String key) {
-            return translatedLore(key, context -> {});
+            return translatedLore(key, context -> {
+            });
         }
 
         public Builder translatedLore(String key, Consumer<TranslationContext> consumer) {
@@ -109,7 +111,8 @@ public interface ItemBuilder {
 
             Component component = getTranslationService().translate(key, consumer);
 
-            String serialize = MM.serialize(component); // we need to pass each line separately, because lores don't accept new lines
+            String serialize = MM.serialize(component); // we need to pass each line separately, because lores don't
+                                                        // accept new lines
             List<Component> lines = Arrays.stream(serialize.split("\n")).map(MM::deserialize).toList();
 
             return lore(lines);
@@ -174,7 +177,8 @@ public interface ItemBuilder {
             return this;
         }
 
-        public <C> Builder persistentData(NamespacedKey namespacedKey, PersistentDataType<?, C> persistentDataType, C value) {
+        public <C> Builder persistentData(NamespacedKey namespacedKey, PersistentDataType<?, C> persistentDataType,
+                C value) {
             return meta(meta -> meta.getPersistentDataContainer().set(namespacedKey, persistentDataType, value));
         }
 
@@ -183,7 +187,8 @@ public interface ItemBuilder {
                 data(itemStack -> {
                     itemStack.setData(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP);
 
-                    ItemAttributeModifiers itemAttributeModifiers = ofNullable(itemStack.getData(DataComponentTypes.ATTRIBUTE_MODIFIERS))
+                    ItemAttributeModifiers itemAttributeModifiers = ofNullable(
+                            itemStack.getData(DataComponentTypes.ATTRIBUTE_MODIFIERS))
                             .map(modifiers -> modifiers.showInTooltip(false))
                             .orElseThrow();
 

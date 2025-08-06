@@ -18,7 +18,8 @@ public class WebhookService {
     private final TranslationService translationService;
 
     @Inject
-    public WebhookService(Configuration configuration, WebhookConfiguration webhookConfiguration, TranslationService translationService) {
+    public WebhookService(Configuration configuration, WebhookConfiguration webhookConfiguration,
+            TranslationService translationService) {
         this.webhookClient = WebhookClient.withUrl(configuration.getWebhookUrl());
         this.webhookConfiguration = webhookConfiguration;
         this.translationService = translationService;
@@ -34,8 +35,10 @@ public class WebhookService {
             throw new IllegalArgumentException("No embed found for key: " + key);
         }
 
-        String title = this.translationService.translateRaw(embed.getTitleKey(), this.translationService.resolveLocale(), context);
-        String description = this.translationService.translateRaw(embed.getDescriptionKey(), this.translationService.resolveLocale(), context);
+        String title = this.translationService.translateRaw(embed.getTitleKey(),
+                this.translationService.resolveLocale(), context);
+        String description = this.translationService.translateRaw(embed.getDescriptionKey(),
+                this.translationService.resolveLocale(), context);
         Integer color = embed.getColor() != null ? Integer.parseInt(embed.getColor().replace("#", ""), 16) : null;
 
         WebhookEmbedBuilder embedBuilder = new WebhookEmbedBuilder();
@@ -53,7 +56,8 @@ public class WebhookService {
         sendEmbed(embedBuilder.build());
     }
 
-    public void sendEmbed(String key, Consumer<TranslationContext> contextConsumer, Consumer<WebhookEmbedBuilder> builder) {
+    public void sendEmbed(String key, Consumer<TranslationContext> contextConsumer,
+            Consumer<WebhookEmbedBuilder> builder) {
         TranslationContext context = new TranslationContext();
         if (contextConsumer != null) {
             contextConsumer.accept(context);

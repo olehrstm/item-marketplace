@@ -29,7 +29,7 @@ public class PlayerService {
 
     public void loadAllUsers() {
         this.userService.allUsers().forEach(user -> this.users.put(user.getUniqueId(), user));
-        log.info("Loaded {} users!", this.users.size());
+        log.info("Loaded {} users!", this.users.size()); // TODO: dont load all users at startup
     }
 
     public void registerPlayer(Player player) {

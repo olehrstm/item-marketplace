@@ -42,7 +42,8 @@ public class SellCommand extends CommandBase {
 
                             this.marketplaceService.createOffer(player, itemInMainHand, price);
                             player.getInventory().setItemInMainHand(ItemStack.empty());
-                            this.translationService.send(player, "command.sell.success", ctx -> ctx.withNumber("price", price));
+                            this.translationService.send(player, "command.sell.success",
+                                    ctx -> ctx.withNumber("price", price));
 
                             return SINGLE_SUCCESS;
                         }));

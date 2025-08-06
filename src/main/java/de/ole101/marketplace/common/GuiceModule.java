@@ -41,7 +41,8 @@ public class GuiceModule extends AbstractModule {
         bind(Configuration.class).toInstance(config);
         MenuConfiguration menuConfig = configService.loadConfig(MenuConfiguration.class, "menus.json");
         bind(MenuConfiguration.class).toInstance(menuConfig);
-        WebhookConfiguration webhookConfiguration = configService.loadConfig(WebhookConfiguration.class, "webhooks.json");
+        WebhookConfiguration webhookConfiguration = configService.loadConfig(WebhookConfiguration.class,
+                "webhooks.json");
         bind(WebhookConfiguration.class).toInstance(webhookConfiguration);
 
         MongoWrapper mongoWrapper = new MongoWrapper(config);
@@ -58,7 +59,8 @@ public class GuiceModule extends AbstractModule {
         bind(MenuService.class).asEagerSingleton();
 
         bind(TranslationService.class).toInstance(TranslationServiceImpl.builder()
-                .provider(new JsonTranslationProvider(config.getFallbackLocale(), "common", "command", "menu", "webhook"))
+                .provider(new JsonTranslationProvider(
+                        config.getFallbackLocale(), "common", "command", "menu", "webhook"))
                 .fallbackLocale(config.getFallbackLocale())
                 .localeSupplier(config::getLocale)
                 .miniMessage(MM)

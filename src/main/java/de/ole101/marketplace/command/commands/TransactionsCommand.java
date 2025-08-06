@@ -29,8 +29,6 @@ import static io.papermc.paper.command.brigadier.Commands.argument;
 public class TransactionsCommand extends CommandBase {
 
     @Inject
-    private MarketplaceService marketplaceService;
-    @Inject
     private PlayerService playerService;
 
     public TransactionsCommand() {
@@ -45,7 +43,8 @@ public class TransactionsCommand extends CommandBase {
                 .then(argument("player", ArgumentTypes.playerProfiles())
                         .executes(context -> {
                             Player player = player(context);
-                            PlayerProfileListResolver profilesResolver = context.getArgument("player", PlayerProfileListResolver.class);
+                            PlayerProfileListResolver profilesResolver = context.getArgument("player",
+                                    PlayerProfileListResolver.class);
                             Collection<PlayerProfile> foundProfiles = profilesResolver.resolve(context.getSource());
 
                             if (foundProfiles.isEmpty()) {
@@ -66,16 +65,20 @@ public class TransactionsCommand extends CommandBase {
                                 return SINGLE_SUCCESS;
                             }
 
-                            this.translationService.send(player, "command.transactions.header", ctx -> ctx.with("player", profile.getName()));
+                            this.translationService.send(player, "command.transactions.header",
+                                    ctx -> ctx.with("player", profile.getName()));
 
                             transactions.forEach(transaction -> {
                                 Offer offer = transaction.getOffer();
 
-                                this.translationService.send(player, "command.transactions.entry", ctx -> ctx.with("type", transaction.getType().name())
-                                        .with("itemName", offer.getItemStack().effectiveName())
-                                        .withNumber("price", offer.getPrice())
-                                        .withDateTime("boughtAt", LocalDateTime.ofInstant(offer.getBoughtAt(), ZoneId.systemDefault()))
-                                        .with("transactionId", transaction.getId()));
+                                this.translationService.send(player, "command.transactions.entry",
+                                        ctx -> ctx.with("type", transaction.getType().name())
+                                                .with("itemName", offer.getItemStack().effectiveName())
+                                                .withNumber("price", offer.getPrice())
+                                                .withDateTime("boughtAt",
+                                                        LocalDateTime.ofInstant(offer.getBoughtAt(),
+                                                                ZoneId.systemDefault()))
+                                                .with("transactionId", transaction.getId()));
                             });
 
                             return SINGLE_SUCCESS;

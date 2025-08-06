@@ -43,17 +43,17 @@ public class Registry {
 
                 this.plugin.getInjector().injectMembers(commandBase);
 
-                lifecycleEventManager.registerEventHandler(LifecycleEvents.COMMANDS, event -> event.registrar().register(
-                        commandBase.builder()
-                                .requires(sourceStack -> testAccess(sourceStack, commandBase.getPermission()))
-                                .build(),
-                        commandBase.getDescription(),
-                        List.of(commandBase.getAliases())
-                ));
+                lifecycleEventManager.registerEventHandler(LifecycleEvents.COMMANDS,
+                        event -> event.registrar().register(
+                                commandBase.builder()
+                                        .requires(sourceStack -> testAccess(sourceStack, commandBase.getPermission()))
+                                        .build(),
+                                commandBase.getDescription(),
+                                List.of(commandBase.getAliases())));
 
                 successCases.getAndIncrement();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                     NoSuchMethodException e) {
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException
+                    | NoSuchMethodException e) {
                 log.warn("Failed to register command {}: {}", commandClass.getSimpleName(), e.getMessage());
             }
         });
