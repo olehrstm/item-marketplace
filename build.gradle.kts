@@ -35,7 +35,7 @@ dependencies {
     implementation(libs.mongodb)
     implementation(libs.discord.webhooks)
 
-    paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.21.8-R0.1-SNAPSHOT")
 }
 
 tasks {
@@ -52,7 +52,11 @@ tasks {
     }
 
     processResources {
-        from(sourceSets.main.get().resources.srcDirs) {
+        from(
+            sourceSets.main
+                .get()
+                .resources.srcDirs
+        ) {
             filesMatching("paper-plugin.yml") {
                 expand("version" to project.version)
             }
@@ -61,6 +65,6 @@ tasks {
     }
 
     runServer {
-        minecraftVersion("1.21.4")
+        minecraftVersion("1.21.8")
     }
 }

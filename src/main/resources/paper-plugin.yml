@@ -1,7 +1,7 @@
 name: ItemMarketplace
 version: '${version}'
 main: de.ole101.marketplace.MarketplacePlugin
-api-version: '1.21.4'
+api-version: '1.21.8'
 description: An Item Marketplace Plugin.
 authors:
   - ole101
