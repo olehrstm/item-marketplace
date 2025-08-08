@@ -20,3 +20,4 @@ public class QuitListener implements Listener {
         this.playerService.disposePlayer(event.getPlayer());
     }
 }
+

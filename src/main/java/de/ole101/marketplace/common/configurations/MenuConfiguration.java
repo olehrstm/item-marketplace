@@ -21,6 +21,7 @@ public class MenuConfiguration {
         private List<MenuItem> items;
     }
 
+
     @Data
     public static class MenuItem {
 
@@ -30,3 +31,4 @@ public class MenuConfiguration {
         private String id;
     }
 }
+

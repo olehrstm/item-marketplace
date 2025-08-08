@@ -29,7 +29,8 @@ public class WebhookService {
         this.webhookClient.send(embed);
     }
 
-    public void sendEmbed(String key, TranslationContext context, Consumer<WebhookEmbedBuilder> builder) {
+    public void sendEmbed(String key, TranslationContext context,
+            Consumer<WebhookEmbedBuilder> builder) {
         WebhookConfiguration.Embed embed = this.webhookConfiguration.getEmbeds().get(key);
         if (embed == null) {
             throw new IllegalArgumentException("No embed found for key: " + key);
@@ -39,7 +40,9 @@ public class WebhookService {
                 this.translationService.resolveLocale(), context);
         String description = this.translationService.translateRaw(embed.getDescriptionKey(),
                 this.translationService.resolveLocale(), context);
-        Integer color = embed.getColor() != null ? Integer.parseInt(embed.getColor().replace("#", ""), 16) : null;
+        Integer color = embed.getColor() != null ?
+                Integer.parseInt(embed.getColor().replace("#", ""), 16) :
+                null;
 
         WebhookEmbedBuilder embedBuilder = new WebhookEmbedBuilder();
         builder.accept(embedBuilder);
@@ -69,3 +72,4 @@ public class WebhookService {
         sendEmbed(key, new TranslationContext(), builder);
     }
 }
+

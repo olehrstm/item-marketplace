@@ -45,11 +45,10 @@ public class Offer {
     private Instant boughtAt;
 
     @BsonIgnore
-    public boolean isBought() {
-        return this.buyer != null;
-    }
+    public boolean isBought() { return this.buyer != null; }
 
     public enum Type {
         MARKETPLACE, BLACK_MARKET
     }
 }
+

@@ -17,3 +17,4 @@ public class Configuration {
     private long maxBlackMarketItems;
     private long blackMarketRefreshInterval;
 }
+

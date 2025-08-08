@@ -19,6 +19,7 @@ public class InventoryListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         Inventory inventory = event.getInventory();
+        Player player = (Player) event.getWhoClicked();
 
         if (!(inventory.getHolder() instanceof Menu menu)) {
             return;
@@ -30,8 +31,7 @@ public class InventoryListener implements Listener {
             return;
         }
 
-        menu.onClick(
-                (Player) event.getWhoClicked(), event.getClick(), event.getCurrentItem(), event);
+        menu.onClick(player, event.getClick(), event.getCurrentItem(), event);
     }
 
     @EventHandler

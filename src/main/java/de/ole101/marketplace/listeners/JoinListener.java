@@ -20,3 +20,4 @@ public class JoinListener implements Listener {
         this.playerService.registerPlayer(event.getPlayer());
     }
 }
+

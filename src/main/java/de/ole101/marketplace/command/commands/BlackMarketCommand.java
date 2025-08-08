@@ -22,7 +22,8 @@ public class BlackMarketCommand extends CommandBase {
     public BlackMarketCommand() {
         super("blackmarket");
         setDescription(
-                "Generates a new shop from the /marketplace menu with 50% discounted prices from a selection of random items. Reimburse the seller 2x if their item is sold on the black market.");
+                "Generates a new shop from the /marketplace menu with 50% discounted prices from a selection of random items. Reimburse the seller 2x if their item is sold on the black market."
+        );
         setPermission("marketplace.blackmarket");
     }
 
@@ -48,3 +49,4 @@ public class BlackMarketCommand extends CommandBase {
                 });
     }
 }
+

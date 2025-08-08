@@ -13,9 +13,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @Slf4j
 public class ConfigService {
 
-    private static final Gson GSON = new GsonBuilder()
-            .setPrettyPrinting()
-            .create();
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     private final File pluginFolder;
 
@@ -71,3 +69,4 @@ public class ConfigService {
         }
     }
 }
+

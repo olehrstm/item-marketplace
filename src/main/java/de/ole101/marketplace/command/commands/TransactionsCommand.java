@@ -42,9 +42,13 @@ public class TransactionsCommand extends CommandBase {
                 .then(argument("player", ArgumentTypes.playerProfiles())
                         .executes(context -> {
                             Player player = player(context);
-                            PlayerProfileListResolver profilesResolver = context.getArgument("player",
-                                    PlayerProfileListResolver.class);
-                            Collection<PlayerProfile> foundProfiles = profilesResolver.resolve(context.getSource());
+                            PlayerProfileListResolver profilesResolver = context.getArgument(
+                                    "player",
+                                    PlayerProfileListResolver.class
+                            );
+                            Collection<PlayerProfile> foundProfiles = profilesResolver.resolve(
+                                    context.getSource()
+                            );
 
                             if (foundProfiles.isEmpty()) {
                                 this.translationService.send(player, "error.command.no.profile");
@@ -56,7 +60,9 @@ public class TransactionsCommand extends CommandBase {
 
                             User user = this.playerService.getUser(uniqueId);
                             List<Transaction> transactions = user.getTransactions().stream()
-                                    .sorted(Comparator.comparing(transaction -> transaction.getOffer().getBoughtAt()))
+                                    .sorted(Comparator.comparing(
+                                            transaction -> transaction.getOffer().getBoughtAt()
+                                    ))
                                     .toList();
 
                             if (transactions.isEmpty()) {
@@ -72,11 +78,14 @@ public class TransactionsCommand extends CommandBase {
 
                                 this.translationService.send(player, "command.transactions.entry",
                                         ctx -> ctx.with("type", transaction.getType().name())
-                                                .with("itemName", offer.getItemStack().effectiveName())
+                                                .with("itemName", offer.getItemStack()
+                                                        .effectiveName())
                                                 .withNumber("price", offer.getPrice())
                                                 .withDateTime("boughtAt",
                                                         LocalDateTime.ofInstant(offer.getBoughtAt(),
-                                                                ZoneId.systemDefault()))
+                                                                ZoneId.systemDefault()
+                                                        )
+                                                )
                                                 .with("transactionId", transaction.getId()));
                             });
 
@@ -84,3 +93,4 @@ public class TransactionsCommand extends CommandBase {
                         }));
     }
 }
+

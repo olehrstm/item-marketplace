@@ -17,3 +17,4 @@ public class WebhookConfiguration {
         private String color;
     }
 }
+

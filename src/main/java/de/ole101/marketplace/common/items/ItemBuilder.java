@@ -76,16 +76,19 @@ public interface ItemBuilder {
         }
 
         public Builder displayName(Component displayName) {
-            return meta(itemMeta -> itemMeta.displayName(displayName.decorationIfAbsent(ITALIC, FALSE)));
+            return meta(itemMeta -> itemMeta.displayName(
+                    displayName.decorationIfAbsent(ITALIC, FALSE)
+            ));
         }
 
         public Builder translatedDisplayName(String key) {
-            return translatedDisplayName(key, context -> {
-            });
+            return translatedDisplayName(key, context -> {});
         }
 
         public Builder translatedDisplayName(String key, Consumer<TranslationContext> consumer) {
-            return displayName(key.isEmpty() ? empty() : getTranslationService().translate(key, consumer));
+            return displayName(key.isEmpty() ?
+                    empty() :
+                    getTranslationService().translate(key, consumer));
         }
 
         public Builder lore(Component... lore) {
@@ -94,7 +97,9 @@ public interface ItemBuilder {
 
         public Builder lore(List<Component> lore) {
             this.itemStack.lore(lore.stream()
-                    .map(component -> component.decorationIfAbsent(ITALIC, FALSE).colorIfAbsent(NamedTextColor.WHITE))
+                    .map(component -> component
+                            .decorationIfAbsent(ITALIC, FALSE)
+                            .colorIfAbsent(NamedTextColor.WHITE))
                     .toList());
             return this;
         }
@@ -112,8 +117,10 @@ public interface ItemBuilder {
             Component component = getTranslationService().translate(key, consumer);
 
             String serialize = MM.serialize(component); // we need to pass each line separately, because lores don't
-                                                        // accept new lines
-            List<Component> lines = Arrays.stream(serialize.split("\n")).map(MM::deserialize).toList();
+                                                       // accept new lines
+            List<Component> lines = Arrays.stream(serialize.split("\n"))
+                    .map(MM::deserialize)
+                    .toList();
 
             return lore(lines);
         }
@@ -144,7 +151,9 @@ public interface ItemBuilder {
                 PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID());
                 PlayerTextures textures = profile.getTextures();
                 try {
-                    textures.setSkin(new URI("https://textures.minecraft.net/texture/" + value).toURL());
+                    textures.setSkin(
+                            new URI("https://textures.minecraft.net/texture/" + value).toURL()
+                    );
                 } catch (MalformedURLException | URISyntaxException e) {
                     throw new RuntimeException("Invalid texture id: " + value);
                 }
@@ -177,9 +186,12 @@ public interface ItemBuilder {
             return this;
         }
 
-        public <C> Builder persistentData(NamespacedKey namespacedKey, PersistentDataType<?, C> persistentDataType,
+        public <C> Builder persistentData(NamespacedKey namespacedKey,
+                PersistentDataType<?, C> persistentDataType,
                 C value) {
-            return meta(meta -> meta.getPersistentDataContainer().set(namespacedKey, persistentDataType, value));
+            return meta(meta -> meta.getPersistentDataContainer().set(
+                    namespacedKey, persistentDataType, value)
+            );
         }
 
         public ItemStack build() {
@@ -188,11 +200,13 @@ public interface ItemBuilder {
                     itemStack.setData(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP);
 
                     ItemAttributeModifiers itemAttributeModifiers = ofNullable(
-                            itemStack.getData(DataComponentTypes.ATTRIBUTE_MODIFIERS))
-                            .map(modifiers -> modifiers.showInTooltip(false))
+                            itemStack.getData(DataComponentTypes.ATTRIBUTE_MODIFIERS)
+                    ).map(modifiers -> modifiers.showInTooltip(false))
                             .orElseThrow();
 
-                    itemStack.setData(DataComponentTypes.ATTRIBUTE_MODIFIERS, itemAttributeModifiers);
+                    itemStack.setData(
+                            DataComponentTypes.ATTRIBUTE_MODIFIERS, itemAttributeModifiers
+                    );
                 });
             }
 
@@ -201,9 +215,12 @@ public interface ItemBuilder {
 
         private TranslationService getTranslationService() {
             if (translationService == null) {
-                translationService = MarketplacePlugin.getPlugin().getInjector().getInstance(TranslationService.class);
+                translationService = MarketplacePlugin.getPlugin().getInjector().getInstance(
+                        TranslationService.class
+                );
             }
             return translationService;
         }
     }
 }
+

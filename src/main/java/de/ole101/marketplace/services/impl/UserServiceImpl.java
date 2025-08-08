@@ -51,3 +51,4 @@ public class UserServiceImpl implements UserService {
         CompletableFuture.runAsync(() -> this.userRepository.delete(user));
     }
 }
+

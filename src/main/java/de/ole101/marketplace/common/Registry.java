@@ -46,15 +46,18 @@ public class Registry {
                 lifecycleEventManager.registerEventHandler(LifecycleEvents.COMMANDS,
                         event -> event.registrar().register(
                                 commandBase.builder()
-                                        .requires(sourceStack -> testAccess(sourceStack, commandBase.getPermission()))
+                                        .requires(sourceStack -> testAccess(
+                                                sourceStack, commandBase.getPermission()
+                                        ))
                                         .build(),
                                 commandBase.getDescription(),
                                 List.of(commandBase.getAliases())));
 
                 successCases.getAndIncrement();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException
-                    | NoSuchMethodException e) {
-                log.warn("Failed to register command {}: {}", commandClass.getSimpleName(), e.getMessage());
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                    NoSuchMethodException e) {
+                log.warn("Failed to register command {}: {}", commandClass.getSimpleName(), e
+                        .getMessage());
             }
         });
 
@@ -66,7 +69,8 @@ public class Registry {
             return ClassPath.from(this.plugin.getClass().getClassLoader())
                     .getAllClasses()
                     .stream()
-                    .filter(clazz -> clazz.getPackageName().startsWith("de.ole101.marketplace." + packageName))
+                    .filter(clazz -> clazz
+                            .getPackageName().startsWith("de.ole101.marketplace." + packageName))
                     .map(ClassPath.ClassInfo::load)
                     .collect(Collectors.toSet());
         } catch (IOException e) {

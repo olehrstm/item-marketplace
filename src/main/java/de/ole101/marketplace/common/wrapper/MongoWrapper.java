@@ -39,8 +39,11 @@ public class MongoWrapper {
     @Inject
     public MongoWrapper(Configuration config) {
         CodecProvider pojoCodedProvider = PojoCodecProvider.builder().automatic(true).build();
-        CodecRegistry pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
-                fromCodecs(new InstantCodec(), new ItemStackCodec()), fromProviders(pojoCodedProvider));
+        CodecRegistry pojoCodecRegistry = fromRegistries(
+                MongoClientSettings.getDefaultCodecRegistry(),
+                fromCodecs(new InstantCodec(), new ItemStackCodec()),
+                fromProviders(pojoCodedProvider)
+        );
 
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(new ConnectionString(config.getMongoUri()))
@@ -66,15 +69,14 @@ public class MongoWrapper {
         }
 
         @Override
-        public Class<Instant> getEncoderClass() {
-            return Instant.class;
-        }
+        public Class<Instant> getEncoderClass() { return Instant.class; }
 
         @Override
         public Instant decode(BsonReader reader, DecoderContext decoderContext) {
             return Instant.ofEpochMilli(reader.readDateTime());
         }
     }
+
 
     public static class ItemStackCodec implements Codec<ItemStack> {
 
@@ -89,9 +91,7 @@ public class MongoWrapper {
         }
 
         @Override
-        public Class<ItemStack> getEncoderClass() {
-            return ItemStack.class;
-        }
+        public Class<ItemStack> getEncoderClass() { return ItemStack.class; }
 
         @Override
         public ItemStack decode(BsonReader reader, DecoderContext decoderContext) {
@@ -104,3 +104,4 @@ public class MongoWrapper {
         }
     }
 }
+

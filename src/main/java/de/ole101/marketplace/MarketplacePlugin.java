@@ -28,15 +28,9 @@ import java.nio.file.Path;
 public class MarketplacePlugin extends JavaPlugin {
 
     public static MiniMessage MM;
-    private static final String[] RESOURCE_PATHS = {
-            "config.json",
-            "menus.json",
-            "webhooks.json",
-            "lang/common_en.json",
-            "lang/command_en.json",
-            "lang/menu_en.json",
-            "lang/webhook_en.json"
-    };
+    private static final String[] RESOURCE_PATHS = { "config.json", "menus.json", "webhooks.json",
+            "lang/common_en.json", "lang/command_en.json", "lang/menu_en.json",
+            "lang/webhook_en.json" };
     @Getter
     private static MarketplacePlugin plugin;
     private final Injector injector;
@@ -82,8 +76,6 @@ public class MarketplacePlugin extends JavaPlugin {
         pluginManager.registerEvents(this.injector.getInstance(InventoryListener.class), this);
 
         this.marketplaceService.scheduleBlackMarketRefresh();
-
-        log.info("test");
 
         log.info("Enabled ItemMarketplace!");
     }

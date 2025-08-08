@@ -43,7 +43,8 @@ public abstract class CommandBase {
         return new SimpleCommandExceptionType(asVanilla(component));
     }
 
-    public Player player(@NotNull CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+    public Player player(@NotNull CommandContext<CommandSourceStack> context)
+            throws CommandSyntaxException {
         if (context.getSource().getSender() instanceof Player player) {
             return player;
         } else {
@@ -51,7 +52,8 @@ public abstract class CommandBase {
         }
     }
 
-    public User user(@NotNull CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+    public User user(@NotNull CommandContext<CommandSourceStack> context)
+            throws CommandSyntaxException {
         Player player = player(context);
         User user = this.playerService.getUser(player);
         if (user == null) {
@@ -60,3 +62,4 @@ public abstract class CommandBase {
         return user;
     }
 }
+

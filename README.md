@@ -2,7 +2,8 @@
 
 ## Disclaimer
 
-This project was originally created for a **private commission** and is **not intended for public use or distribution**.
+This project was originally created for a **private commission**
+and is **not intended for public use or distribution**.
 
 All rights are reserved by the author.
 No permission is granted to use, copy, modify, or redistribute any part of this software.
@@ -16,6 +17,5 @@ If you have any questions, please contact: <contact@ole101.de>
 
 ## Refactor
 
-- Correct style configuration in neovim -> Fix trailing empty lines being removed
 - i18n
 - menu

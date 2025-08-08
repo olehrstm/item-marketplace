@@ -39,12 +39,9 @@ public class User {
     private long balance;
 
     @BsonIgnore
-    public Player getPlayer() {
-        return Bukkit.getPlayer(this.uniqueId);
-    }
+    public Player getPlayer() { return Bukkit.getPlayer(this.uniqueId); }
 
     @BsonIgnore
-    public OfflinePlayer getOfflinePlayer() {
-        return Bukkit.getOfflinePlayer(this.uniqueId);
-    }
+    public OfflinePlayer getOfflinePlayer() { return Bukkit.getOfflinePlayer(this.uniqueId); }
 }
+

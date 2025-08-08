@@ -51,3 +51,4 @@ public class UserRepositoryImpl implements UserRepository {
         this.mongoCollection.deleteOne(eq(ID_FIELD_NAME, user.getId()));
     }
 }
+

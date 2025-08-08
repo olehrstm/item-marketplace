@@ -39,9 +39,13 @@ public class GuiceModule extends AbstractModule {
         bind(ConfigService.class).toInstance(configService);
         Configuration config = configService.loadConfig(Configuration.class, "config.json");
         bind(Configuration.class).toInstance(config);
-        MenuConfiguration menuConfig = configService.loadConfig(MenuConfiguration.class, "menus.json");
+        MenuConfiguration menuConfig = configService.loadConfig(
+                MenuConfiguration.class,
+                "menus.json"
+        );
         bind(MenuConfiguration.class).toInstance(menuConfig);
-        WebhookConfiguration webhookConfiguration = configService.loadConfig(WebhookConfiguration.class,
+        WebhookConfiguration webhookConfiguration = configService.loadConfig(
+                WebhookConfiguration.class,
                 "webhooks.json");
         bind(WebhookConfiguration.class).toInstance(webhookConfiguration);
 
@@ -60,7 +64,8 @@ public class GuiceModule extends AbstractModule {
 
         bind(TranslationService.class).toInstance(TranslationServiceImpl.builder()
                 .provider(new JsonTranslationProvider(
-                        config.getFallbackLocale(), "common", "command", "menu", "webhook"))
+                        config.getFallbackLocale(), "common", "command", "menu", "webhook")
+                )
                 .fallbackLocale(config.getFallbackLocale())
                 .localeSupplier(config::getLocale)
                 .miniMessage(MM)
@@ -69,3 +74,4 @@ public class GuiceModule extends AbstractModule {
         bind(WebhookService.class).asEagerSingleton();
     }
 }
+
