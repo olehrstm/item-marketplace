@@ -1,9 +1,7 @@
 package de.ole101.marketplace.listeners;
 
 import de.ole101.marketplace.common.menu.Menu;
-
 import lombok.extern.slf4j.Slf4j;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

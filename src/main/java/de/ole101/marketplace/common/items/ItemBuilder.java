@@ -6,7 +6,8 @@ import de.ole101.marketplace.common.i18n.TranslationContext;
 import de.ole101.marketplace.common.i18n.TranslationService;
 import de.ole101.marketplace.common.menu.item.MenuItem;
 import io.papermc.paper.datacomponent.DataComponentTypes;
-import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
+import io.papermc.paper.datacomponent.item.TooltipDisplay;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -24,11 +25,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
 import static de.ole101.marketplace.MarketplacePlugin.MM;
-import static java.util.Optional.ofNullable;
 import static net.kyori.adventure.text.Component.empty;
 import static net.kyori.adventure.text.format.TextDecoration.ITALIC;
 import static net.kyori.adventure.text.format.TextDecoration.State.FALSE;
@@ -37,7 +38,9 @@ public interface ItemBuilder {
 
     ItemStack FILL_ITEM = of(Material.GRAY_STAINED_GLASS_PANE)
             .displayName(empty())
-            .data(itemStack -> itemStack.setData(DataComponentTypes.HIDE_TOOLTIP))
+            .data(itemStack -> itemStack.setData(DataComponentTypes.TOOLTIP_DISPLAY,
+                    TooltipDisplay.tooltipDisplay().hideTooltip(true).build()
+            ))
             .build();
 
     MenuItem FILL_MENU_ITEM = MenuItem.builder()
@@ -105,8 +108,7 @@ public interface ItemBuilder {
         }
 
         public Builder translatedLore(String key) {
-            return translatedLore(key, context -> {
-            });
+            return translatedLore(key, context -> {});
         }
 
         public Builder translatedLore(String key, Consumer<TranslationContext> consumer) {
@@ -116,8 +118,9 @@ public interface ItemBuilder {
 
             Component component = getTranslationService().translate(key, consumer);
 
-            String serialize = MM.serialize(component); // we need to pass each line separately, because lores don't
-                                                       // accept new lines
+            String serialize = MM.serialize(component);
+            // we need to pass each line separately, because lores don't accept new lines directly
+
             List<Component> lines = Arrays.stream(serialize.split("\n"))
                     .map(MM::deserialize)
                     .toList();
@@ -138,8 +141,8 @@ public interface ItemBuilder {
             return meta(itemMeta -> itemMeta.setUnbreakable(unbreakable));
         }
 
-        public Builder customModelData(int customModelData) {
-            return meta(itemMeta -> itemMeta.setCustomModelData(customModelData));
+        public Builder customModel(Key customModel) {
+            return data(stack -> stack.setData(DataComponentTypes.ITEM_MODEL, customModel));
         }
 
         public Builder skullOwner(OfflinePlayer offlinePlayer) {
@@ -196,18 +199,11 @@ public interface ItemBuilder {
 
         public ItemStack build() {
             if (this.hideAdditionalTooltip) {
-                data(itemStack -> {
-                    itemStack.setData(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP);
-
-                    ItemAttributeModifiers itemAttributeModifiers = ofNullable(
-                            itemStack.getData(DataComponentTypes.ATTRIBUTE_MODIFIERS)
-                    ).map(modifiers -> modifiers.showInTooltip(false))
-                            .orElseThrow();
-
-                    itemStack.setData(
-                            DataComponentTypes.ATTRIBUTE_MODIFIERS, itemAttributeModifiers
-                    );
-                });
+                data(itemStack -> itemStack.setData(DataComponentTypes.TOOLTIP_DISPLAY,
+                        TooltipDisplay.tooltipDisplay()
+                                .hiddenComponents(Set.of(DataComponentTypes.ATTRIBUTE_MODIFIERS))
+                                .build())
+                );
             }
 
             return this.itemStack;

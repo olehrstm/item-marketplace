@@ -1,18 +1,14 @@
 package de.ole101.marketplace.services;
 
 import club.minnced.discord.webhook.send.WebhookEmbed;
-
 import com.google.inject.Inject;
-
 import de.ole101.marketplace.MarketplacePlugin;
 import de.ole101.marketplace.common.configurations.Configuration;
 import de.ole101.marketplace.common.i18n.TranslationService;
 import de.ole101.marketplace.common.models.Offer;
 import de.ole101.marketplace.common.models.Transaction;
 import de.ole101.marketplace.common.models.User;
-
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -69,10 +65,10 @@ public class MarketplaceService {
         this.userService.update(user);
 
         this.webhookService.sendEmbed("offer.created", context -> context
-                .with("player", player.getName())
-                .with("itemName", PLAIN_TEXT_SERIALIZER.serialize(itemStack.effectiveName()))
-                .withNumber("itemAmount", itemStack.getAmount())
-                .withNumber("price", price),
+                        .with("player", player.getName())
+                        .with("itemName", PLAIN_TEXT_SERIALIZER.serialize(itemStack.effectiveName()))
+                        .withNumber("itemAmount", itemStack.getAmount())
+                        .withNumber("price", price),
                 builder -> builder
                         .setTimestamp(Instant.now())
                         .setAuthor(new WebhookEmbed.EmbedAuthor(player.getName(), String.format(
